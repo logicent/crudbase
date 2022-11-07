@@ -1,0 +1,10 @@
+@import url('base.css');
+
+.ui.breadcrumb .section div.active {
+    font-weight: normal;
+}
+
+.list-header.computed-stat {
+    color: #6c7680 !important;
+    font-weight: 500 !important;
+}
