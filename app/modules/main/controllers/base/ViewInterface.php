@@ -23,7 +23,6 @@ interface ViewInterface
 
     // mainAction
     // otherActions
-    // batchActions
     // userActions
 
     public function showViewTypeSwitcher(): bool;

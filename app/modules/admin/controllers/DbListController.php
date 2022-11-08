@@ -2,18 +2,21 @@
 
 namespace crudle\app\admin\controllers;
 
-use crudle\app\admin\controllers\action\Index;
 use crudle\app\admin\models\Database;
 use crudle\app\admin\models\search\DatabaseSearch;
-use crudle\app\helpers\App;
-use crudle\app\main\controllers\base\BaseViewController;
-use crudle\app\main\enums\Type_View;
 use Yii;
-use yii\data\SqlDataProvider;
-use yii\helpers\ArrayHelper;
+use yii\helpers\StringHelper;
 
-class DbListController extends BaseViewController
+class DbListController extends DbObjectController
 {
+    public function actions()
+    {
+        return [
+            // 'index' => Index::class,
+            // 'select' => Select::class
+        ];
+    }
+
     public function modelClass(): string
     {
         return Database::class;
@@ -24,44 +27,57 @@ class DbListController extends BaseViewController
         return DatabaseSearch::class;
     }
 
-    public function actions()
+    public function actionIndex()
     {
-        return [
-            'index' => Index::class
+        if (!Yii::$app->session->has('dbConfig'))
+            return $this->redirect(['/app/login']);
+
+        $searchModelClass = $this->searchModelClass();
+        $searchClassname = StringHelper::basename($searchModelClass);
+        $searchModel = new $searchModelClass;
+
+        // check if global search is used to fetch result
+        if (!empty(Yii::$app->request->get('GlobalSearch')))
+        {
+            $globalSearchTerm = [
+                $searchClassname => [
+                    $searchModel->listSettings->listNameAttribute => Yii::$app->request->get('GlobalSearch')['gs_term'],
+                ],
+            ];
+            $userFilters = $globalSearchTerm;
+        }
+        else
+            $userFilters = Yii::$app->request->queryParams;
+
+        $filterColumnName = $searchModel->listSettings->listIdAttribute;
+        // if (!empty($userFilters))
+        // fetch the list of all (system + user) databases
+        $dataProvider = $searchModel->search($userFilters);
+        // else {
+        //     $dataProvider = new ActiveDataProvider([
+        //         'query' => $this->modelClass()::find()->where([$filterColumnName => ''])
+        //     ]);
+        // }
+
+        $formModelClass = $this->formModelClass();
+        $this->formModel = new $formModelClass;
+        $this->formModel->schemaName = $userFilters[$filterColumnName] ?? null;
+
+        $data = [
+            'formModel' => $this->formModel,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ];
+        $view = '@appMain/views/list/index';
+        if (Yii::$app->request->isAjax)
+            return $this->renderAjax($view, $data);
+        else
+            return $this->render('index', $data);
     }
 
-    /**
-     * Renders the create view for the controller
-     * @return string
-     */
-    public function actionCreate()
+    // ListViewInterface
+    public function listRouteId(): string
     {
-        return $this->render('create');
-    }
-
-    /**
-     * Renders the alter view for the controller
-     * @return string
-     */
-    public function actionAlter()
-    {
-        return $this->render('alter');
-    }
-
-    // ViewInterface
-    public function defaultActionViewType()
-    {
-        return Type_View::List;
-    }
-
-    public function showViewHeader(): bool
-    {
-        return true;
-    }
-
-    public function showViewSidebar(): bool
-    {
-        return true;
+        return 'db-table';
     }
 }

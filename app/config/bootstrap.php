@@ -119,4 +119,5 @@ Yii::setAlias('@crudle', $rootPath);
 Yii::setAlias('@app', "@crudle/app");
 Yii::setAlias('@appModules', "@app/modules");
 Yii::setAlias('@appMain', '@appModules/main');
+Yii::setAlias('@appAdmin', '@appModules/admin');
 Yii::setAlias('@extModules', "@crudle/modules");

@@ -504,7 +504,7 @@ body::-webkit-scrollbar-thumb {
     padding: 1rem;
 }
 
-.grid-view .ui.table th a {
+.grid-view .ui.table th a, .grid-view .ui.table th {
     color: #6c7680;
     font-weight: 500;
 }

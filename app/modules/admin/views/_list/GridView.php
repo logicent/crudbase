@@ -13,49 +13,23 @@ use icms\FomanticUI\modules\Checkbox;
 DataTable::register($this);
 ?>
 
-<div class="ui bottom attached padded segment">
 <?php
     echo GridView::widget([
-        'layout' => "{items}\n{pager}",
-        'tableOptions' => [
-            'class' => 'ui very basic table'
-        ],
-        'caption' => isset($caption) ? $caption : null,
-        'captionOptions' => [
-            'class' => 'ui left aligned small secondary header basic segment text-muted',
-            'style' => 'font-weight: 500'
-        ],
+        // 'caption' => isset($caption) ? $caption : null,
+        // 'captionOptions' => [
+        //     'class' => 'ui left aligned small secondary header basic segment text-muted',
+        //     'style' => 'font-weight: 500'
+        // ],
+        'layout' => "{summary}\n{items}\n{pager}\n{errors}", // {sorter}
+        'summary' => 'Showing <b>{begin} - {end}</b> of <b>{totalCount}</b> rows.',
+        'summaryOptions' => ['class' => 'text-muted', 'style' => 'text-align: right;'],
+        'tableOptions' => ['class' => 'ui striped selectable fixed single line primary table'],
         'dataProvider' => $dataProvider,
-        'columns'  => ArrayHelper::merge(
-            [
-                [
-                    'class' => 'icms\FomanticUI\widgets\CheckboxColumn',
-                    'header' => Checkbox::widget([
-                        'name' => 'select_row',
-                        // 'checked' => false, // default false
-                    ]),
-                    // 'headerOptions' => [
-                    //     'id' => 'select_all_rows'
-                    // ],
-                    // 'content' => function ($model, $key, $index, $column) {
-                    //     return Checkbox::widget([
-                    //         'name' => $key
-                    //     ]);
-                    // },
-                    'checkboxOptions' => function ($model, $key, $index, $column) {
-                        return [
-                            'class' => 'select-row',
-                            'id' => $index,
-                            'value' => Json::encode($key),
-                        ];
-                    },
-                    // 'contentOptions' => [
-                    // ],
-                    // 'visible' => false
-                ],
-            ],
-            $columns,
-        ) // array merge
+        // 'columns' => ArrayHelper::merge(
+        //     $checkboxColumn,
+            // $linkColumn,
+            // $columns,
+        // ) // array merge
     ]);
 $this->registerJs(<<<JS
     // if ($('.ui .table > tbody > tr').length > 1) {
@@ -83,4 +57,3 @@ $this->registerJs(<<<JS
     // });
 JS)
 ?>
-</div>

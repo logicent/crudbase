@@ -12,11 +12,16 @@ return [
         'format' => 'raw',
         'value' => function ($model, $key, $index, $column)
         {
+            if (is_array($model)) {
+                $searchModelClass = $this->context->searchModelClass();
+                $model = new $searchModelClass();
+            }
             $attribute = $column->attribute;
-            $controllerId = StringHelper::basename( $this->context->id );
-            $route = '/'. $this->context->module->id .'/'. $controllerId .'/update';
+            $linkId = $model->listSettings->listIdAttribute;
+            $route = '/'. $this->context->module->id .'/'. $this->context->listRouteId();
+
             $linkColumn = Html::a( $model->$attribute,
-                                Url::to([$route, 'id' => $model->{$model->listSettings->listIdAttribute}]),
+                                Url::to([$route, $linkId => $model->{$linkId}]),
                                 [
                                     'style' => 'font-weight: 500',
                                     'data' => [

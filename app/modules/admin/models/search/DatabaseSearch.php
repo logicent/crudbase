@@ -46,6 +46,11 @@ class DatabaseSearch extends Database
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'SCHEMA_NAME' => SORT_ASC,
+                ]
+            ],
         ]);
 
         $this->load($params);

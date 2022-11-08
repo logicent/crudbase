@@ -41,7 +41,7 @@ class DbTableSearch extends DbTable
      */
     public function search($params)
     {
-        $query = DbTable::find();
+        $query = DbTable::find()->where(['TABLE_SCHEMA' => $params['SCHEMA_NAME']]);
 
         // add conditions that should always apply here
 

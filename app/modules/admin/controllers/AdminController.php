@@ -77,8 +77,11 @@ class AdminController extends BaseViewController
                     'database' => $model->useDatabase(),
                 ];
                 Yii::$app->session->set('dbInfo', $dbInfo);
-
-                return $this->redirect(['/app/db-list']); // return $this->goBack();}
+                if (empty($model->database))
+                    $route = 'db-list';
+                else
+                    $route = 'db-table';
+                return $this->redirect(["/app/$route"]); // return $this->goBack();}
             }
 
         $model->password = ''; // clear the password
@@ -90,10 +93,10 @@ class AdminController extends BaseViewController
 
     public function actionLogout()
     {
-        // Yii::$app->cache->flush(); // Clear all cache here
-        Yii::$app->user->logout();
+        Yii::$app->session->destroy(); // Clear all cached settings
+        Yii::$app->app->db->close();
 
-        return $this->goHome();
+        return $this->redirect(['/app/login']);
     }
 
     public function defaultActionViewType()

@@ -1,19 +1,34 @@
-**_Note: This is a beta version of the software. You are advised to proceed with caution!_**
+**_Note: This is a alpha version of the software. You are advised to proceed with caution!_**
 
 ### Introduction
 
 **Overview**
 
-A free and open source relational database administration tool for developers and database admins.
+A free and open source database administration and development tool for developers, database admins and sysadmins.
 
 **Installation**
 
-See yii2-crudle
+Prerequisites
+- Git
+- Composer
+- NPM
+
+Option 1: via Composer
+- Run `composer create-project logicent/crudbase:dev-main && cd crudbase`
+
+Option 2: via CLI
+- Run `git clone git@github.com:logicent/crudbase.git && cd crudbase`
+- Run `composer install`
+
+Continue:
+- Create a database and update your `.env` settings
+- Run `./crudle serve -t web` in local environment or use preferred web server in production
 
 ### System Architecture
 
 **Context**
-Crudbase is a relational database administration tool for rapid application development and maintenance using a modified Crudle template, some predefined coding conventions and a admin built with Fomantic UI.
+
+Crudbase is a database management tool for easy development and maintenance of relational and non-relational databases built using a modified Yii2-crudle template. It features a fully-fledged and responsive admin UI.
 
 **Containers**
 - app (Admin)
@@ -27,28 +42,35 @@ Crudbase is a relational database administration tool for rapid application deve
 
 ### Technology Stack
 **Programming Languages and Frameworks**
-- PHP 8.0 using Yii2 and JavaScript using Htmx 2
-- Dockerized
+- PHP 8.0 using Yii2 and JavaScript using jQuery & Htmx 2
+- Dockerized _(todo later)_
 
 **Databases Supported**
-- MySQL 5.7
+- [x] MySQL
+- [ ] MariaDB
+- [ ] SQLite
+- [ ] PostgreSQL
+<!-- - [ ] MongoDB -->
+<!-- - [ ] Redis -->
 
 ### Roadmap
 _Now:_
-- Create Table
-- Rename Table
-- Drop Table
-- Truncate Table
-- Add Column
-- Rename Column
-- Drop Column
-- Alter Column
-- Add Primary Key
-- Drop Primary Key
-- Add Foreign Key
-- Drop Foreign Key
-- Create Index
-- Drop Index
+- [ ] Create Table
+- [ ] Create View
+- [ ] Drop View
+- [ ] Rename Table
+- [ ] Drop Table
+- [ ] Truncate Table
+- [ ] Add Column
+- [ ] Rename Column
+- [ ] Drop Column
+- [ ] Alter Column
+- [ ] Add Primary Key
+- [ ] Drop Primary Key
+- [ ] Add Foreign Key
+- [ ] Drop Foreign Key
+- [ ] Create Index
+- [ ] Drop Index
 
 _Next:_
 
