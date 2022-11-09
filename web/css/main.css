@@ -8,3 +8,13 @@
     color: #6c7680 !important;
     font-weight: 500 !important;
 }
+
+#sidebar_menu {
+    max-height: 910px;
+    overflow-x: hidden;
+    /* overflow-y: scroll; */
+}
+
+.grid-view {
+    overflow-x: auto;
+}

@@ -34,9 +34,11 @@ class Select extends Action
             'searchModel' => new $searchModelClass(),
             'dataProvider' => $dataProvider,
         ];
-        if (Yii::$app->request->isAjax)
-            return $this->controller->renderAjax('@appAdmin/views/_list/index', $data);
+        $headers = Yii::$app->request->headers;
+        $isAjaxRequest = Yii::$app->request->isAjax || $headers->has('HX-Request');
+        if ($isAjaxRequest) // renderAjax
+            return $this->controller->render('/_listindex', $data);
         else
-            return $this->controller->render('@appAdmin/views/_list/index', $data);
+            return $this->controller->render('/_list/index', $data);
     }
 }

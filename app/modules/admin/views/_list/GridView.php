@@ -11,19 +11,19 @@ use yii\helpers\Json;
 use icms\FomanticUI\modules\Checkbox;
 
 DataTable::register($this);
-?>
 
-<?php
     echo GridView::widget([
         // 'caption' => isset($caption) ? $caption : null,
         // 'captionOptions' => [
         //     'class' => 'ui left aligned small secondary header basic segment text-muted',
         //     'style' => 'font-weight: 500'
         // ],
+        'emptyText' => Yii::t('app', 'No rows found'),
+        'emptyTextOptions' => ['class' => 'ui small header center aligned text-muted'],
         'layout' => "{summary}\n{items}\n{pager}\n{errors}", // {sorter}
         'summary' => 'Showing <b>{begin} - {end}</b> of <b>{totalCount}</b> rows.',
         'summaryOptions' => ['class' => 'text-muted', 'style' => 'text-align: right;'],
-        'tableOptions' => ['class' => 'ui striped selectable fixed single line primary table'],
+        'tableOptions' => ['class' => 'ui striped selectable single line primary table'],
         'dataProvider' => $dataProvider,
         // 'columns' => ArrayHelper::merge(
         //     $checkboxColumn,

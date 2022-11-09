@@ -5,16 +5,13 @@ use yii\helpers\Inflector;
 $context = $this->context;
 $module = $this->context->module;
 
-$this->title = Yii::t('app', '{listTitle}', ['listTitle' => $context->viewName()]);
-
+$this->title = Yii::t('app', 'Database: ') . $formModel->schemaName;
 $this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', '{moduleName}', [
-        'moduleName' => Inflector::camel2words(
-            Inflector::id2camel($module->id)
-        )
-    ]),
-    'url' => ['/' . $module->id]
+    'label' => Yii::t('app', '{dbServer}', ['dbServer' => 'MySQL']), // fetch the server name in context
+    'url' => ['/app/db-server']
 ];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Server'), 'url' => ['/app/db-list']];
+$this->params['breadcrumbs'][] = ['label' => $formModel->schemaName];
 
 $searchForm = $context->viewPath . '/_search.php';
 if (file_exists($searchForm)) : ?>

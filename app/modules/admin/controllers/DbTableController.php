@@ -35,23 +35,29 @@ class DbTableController extends DbObjectController
             return $this->redirect(['/app/login']);
 
         $searchModelClass = $this->searchModelClass();
-        $searchClassname = StringHelper::basename($searchModelClass);
         $searchModel = new $searchModelClass;
+        // $searchClassname = StringHelper::basename($searchModelClass);
 
         // check if global search is used to fetch result
-        if (!empty(Yii::$app->request->get('GlobalSearch')))
-        {
-            $globalSearchTerm = [
-                $searchClassname => [
-                    $searchModel->listSettings->listNameAttribute => Yii::$app->request->get('GlobalSearch')['gs_term'],
-                ],
-            ];
-            $userFilters = $globalSearchTerm;
-        }
-        else
+        // if (!empty(Yii::$app->request->get('GlobalSearch')))
+        // {
+        //     $globalSearchTerm = [
+        //         $searchClassname => [
+        //             $searchModel->listSettings->listNameAttribute => Yii::$app->request->get('GlobalSearch')['gs_term'],
+        //         ],
+        //     ];
+        //     $userFilters = $globalSearchTerm;
+        // }
+        // check if get is called via Ajax or HX-Request
+        $filterColumnName = 'SCHEMA_NAME';
+        $headers = Yii::$app->request->headers;
+        $isAjaxRequest = Yii::$app->request->isAjax || $headers->has('HX-Request');
+        if ($isAjaxRequest)
+            $userFilters = [$filterColumnName => Yii::$app->request->get('DatabaseForm')['schemaName']];
+        else // called via browser URL
             $userFilters = Yii::$app->request->queryParams;
 
-        if (!empty($userFilters))
+        if (!empty($userFilters)) // only fetch if filter params exist
             $dataProvider = $searchModel->search($userFilters);
         else {
             $dataProvider = new ActiveDataProvider([
@@ -61,7 +67,6 @@ class DbTableController extends DbObjectController
 
         $formModelClass = $this->formModelClass();
         $this->formModel = new $formModelClass;
-        $filterColumnName = 'SCHEMA_NAME';
         $this->formModel->schemaName = isset($userFilters[$filterColumnName]) ? $userFilters[$filterColumnName] : null;
 
         $data = [
@@ -69,10 +74,9 @@ class DbTableController extends DbObjectController
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ];
-        $view = '@appMain/views/list/index';
-        $headers = Yii::$app->request->headers;
-        if (Yii::$app->request->isAjax || $headers->has('HX-Request'))
-            return $this->renderAjax($view, $data);
+        $view = 'index';
+        if ($isAjaxRequest) // renderAjax
+            return $this->render($view, $data);
         else
             return $this->render($view, $data);
     }

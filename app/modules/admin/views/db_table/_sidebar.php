@@ -32,8 +32,9 @@ $form = ActiveForm::begin([
             JS,
             'data' => [
                 'hx-get' => Url::to(['db-table/index', 'SCHEMA_NAME' => '']),
-                'hx-target' => '#content',
-                // 'hx-swap' => 'innerHTML'
+                'hx-target' => 'body > div.main', // #content
+                'hx-push-url' => 'true',
+                'hx-swap' => 'outerHTML'
             ]
         ]
     ]);
@@ -45,7 +46,10 @@ $form = ActiveForm::begin([
         ];
     endforeach;
     echo Menu::widget([
+        'id' => 'sidebar_menu',
         'items' => $items ?? [],
-        'options' => ['class' => 'secondary vertical pointing'],
+        'options' => [
+            'class' => 'secondary fluid vertical pointing',
+        ],
     ]);
 ActiveForm::end();
