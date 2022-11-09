@@ -1,34 +1,29 @@
 <?php
 
 return [
+        // [
+        //         'icon' => 'grey server large',
+        //         'route' => 'db-server',
+        //         'label' => 'Servers',
+        // ],
         [
                 'icon' => 'grey database large',
-                'route' => 'db-list',
+                'route' => 'db',
                 'label' => 'Databases',
-                'inactive' => true,
-        ],
-        [
-                'icon' => 'grey table large',
-                'route' => 'db-table',
-                'label' => 'Tables',
-                'inactive' => true,
         ],
         [
                 'icon' => 'grey code large',
                 'route' => 'db-cmd',
                 'label' => 'SQL',
-                'inactive' => true,
         ],
         [
                 'icon' => 'grey upload large',
-                'route' => 'db-import',
+                'route' => 'import',
                 'label' => 'Import',
-                'inactive' => true,
         ],
         [
                 'icon' => 'grey download large',
-                'route' => 'db-export',
+                'route' => 'export',
                 'label' => 'Export',
-                'inactive' => true,
         ],
 ];

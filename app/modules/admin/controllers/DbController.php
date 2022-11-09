@@ -7,13 +7,15 @@ use crudle\app\admin\models\search\DatabaseSearch;
 use Yii;
 use yii\helpers\StringHelper;
 
-class DbListController extends DbObjectController
+class DbController extends DbObjectController
 {
     public function actions()
     {
         return [
             // 'index' => Index::class,
-            // 'select' => Select::class
+            // 'create' => Create::class,
+            // 'alter' => Alter::class,
+            // 'drop' => Drop::class,
         ];
     }
 
@@ -74,6 +76,28 @@ class DbListController extends DbObjectController
         else
             return $this->render('index', $data);
     }
+
+    public function actionServer()
+    {}
+
+    public function actionCollation()
+    {}
+
+    public function actionEngine()
+    {}
+
+    public function actionCharacterSet()
+    {}
+
+    public function actionCreate()
+    {}
+
+    // Rename ?
+    public function actionAlter()
+    {}
+
+    public function actionDrop()
+    {}
 
     // ListViewInterface
     public function listRouteId(): string

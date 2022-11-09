@@ -2,8 +2,8 @@
 
 use icms\FomanticUI\widgets\ActiveForm;
 
-$this->title = Yii::t('app', 'SQL Command');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'SQL Command'), 'url' => ['/app/db-cmd']];
+$this->title = Yii::t('app', 'Import');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Import'), 'url' => ['/app/db-import']];
 
 $fieldOptions = [
     'options' => ['class' => 'inline field'],

@@ -78,7 +78,7 @@ class AdminController extends BaseViewController
                 ];
                 Yii::$app->session->set('dbInfo', $dbInfo);
                 if (empty($model->database))
-                    $route = 'db-list';
+                    $route = 'db';
                 else
                     $route = 'db-table';
                 return $this->redirect(["/app/$route"]); // return $this->goBack();}

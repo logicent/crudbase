@@ -2,6 +2,7 @@
 
 namespace crudle\app\admin\controllers;
 
+use crudle\app\admin\forms\SqlCmdForm;
 use crudle\app\main\controllers\base\BaseViewController;
 use crudle\app\main\enums\Type_View;
 use Yii;
@@ -20,7 +21,9 @@ class DbCmdController extends BaseViewController
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new SqlCmdForm();
+
+        return $this->render('index', ['model' => $model]);
     }
 
     // ViewInterface
@@ -31,11 +34,11 @@ class DbCmdController extends BaseViewController
 
     public function showViewHeader(): bool
     {
-        return false;
+        return true;
     }
 
     public function showViewSidebar(): bool
     {
-        return false;
+        return true;
     }
 }

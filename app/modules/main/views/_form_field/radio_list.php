@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 
-$isReadonly = $this->context->isReadonly();
-?>
 
-<?= $form->field($model, $attribute)->radioList($items, [
-        'class' => $isReadonly ? 'disabled custom-listbox' : 'custom-listbox', // for container styles
+$fieldOptions = $fieldOptions ?? [];
+
+echo $form->field($model, $attribute, $fieldOptions)->radioList($items, [
+        'class' => 'custom-listbox', // for container styles
         'item' => 
         function ($index, $label, $name, $checked, $value) 
         {

@@ -2,11 +2,12 @@
 
 namespace crudle\app\admin\controllers;
 
+use crudle\app\admin\forms\ExportForm;
 use crudle\app\main\controllers\base\BaseViewController;
 use crudle\app\main\enums\Type_View;
 use Yii;
 
-class DbExportController extends BaseViewController
+class ExportController extends BaseViewController
 {
     public function actions()
     {
@@ -20,7 +21,9 @@ class DbExportController extends BaseViewController
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new ExportForm();
+
+        return $this->render('index', ['model' => $model]);
     }
 
     // ViewInterface
@@ -31,11 +34,11 @@ class DbExportController extends BaseViewController
 
     public function showViewHeader(): bool
     {
-        return false;
+        return true;
     }
 
     public function showViewSidebar(): bool
     {
-        return false;
+        return true;
     }
 }

@@ -11,6 +11,11 @@ class DbViewController extends BaseViewController
     public function actions()
     {
         return [
+            // 'index' => Index::class,
+            // 'select' => Select::class,
+            // 'create' => Create::class,
+            // 'alter' => Alter::class,
+            // 'drop' => Drop::class,
         ];
     }
 

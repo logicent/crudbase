@@ -9,20 +9,12 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\StringHelper;
 
-class DbTableController extends DbObjectController
+class DbEventController extends DbObjectController
 {
     public function actions()
     {
         return [
             // 'index' => Index::class,
-            'select' => Select::class,
-            // 'create' => Create::class,
-            // 'alter' => Alter::class,
-            // 'drop' => Drop::class,
-            // 'truncate' => Truncate::class,
-            // 'insert' => Insert::class,
-            // 'update' => Update::class,
-            // 'delete' => Delete::class,
         ];
     }
 
@@ -91,6 +83,6 @@ class DbTableController extends DbObjectController
     // ListViewInterface
     public function listRouteId(): string
     {
-        return 'db-table/select'; // or explain
+        return ''; // or explain
     }
 }

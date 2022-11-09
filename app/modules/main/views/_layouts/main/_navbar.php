@@ -20,7 +20,7 @@ use icms\FomanticUI\Elements;
         <div class="ui three column grid container">
             <div class="one wide column item" id="home_icon">
             <!-- $layoutSettings->homeButtonIcon -->
-                <?= Html::a(Elements::icon('brown globe large'), ['/app/home'], ['class' => "compact ui icon button"]) ?>
+                <?= Html::a(Elements::icon('brown globe large'), ['/app/db'], ['class' => "compact ui icon button"]) ?>
             </div>
             <div class="computer only large screen only five wide column item">
             <?php
@@ -36,7 +36,7 @@ use icms\FomanticUI\Elements;
             </div>
             <div class="computer only large screen only ten wide column item">
             <?php
-                echo $this->render('../_nav_new');
+                // echo $this->render('../_nav_new');
                 echo $this->render('../_global_search');
                 echo $this->render('../_nav_help');
                 echo $this->render('../_nav_user') ?>

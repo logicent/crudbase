@@ -13,6 +13,7 @@ $menuItems = [
         'openInNewTab' => true,
         'inactive' => false,
     ],
+    // https://www.sqltutorial.org/
 ];
 ?>
 
