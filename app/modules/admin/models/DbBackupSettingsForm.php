@@ -2,11 +2,10 @@
 
 namespace crudle\app\admin\models;
 
-use crudle\app\setup\enums\Type_Permission;
-use crudle\app\setup\models\base\BaseSettingsForm;
 use Yii;
+use yii\base\Model;
 
-class DbBackupSettingsForm extends BaseSettingsForm
+class DbBackupSettingsForm extends Model
 {
     public $includeTables =[];
     public $excludeTables = [];
@@ -29,15 +28,6 @@ class DbBackupSettingsForm extends BaseSettingsForm
         return [
             'useCompression' => Yii::t('app', 'Use compression'),
             'keepBackupsFor' => Yii::t('app', 'Keep backups for'),
-        ];
-    }
-
-    public static function permissions()
-    {
-        return [
-            Type_Permission::Create => Type_Permission::Create,
-            Type_Permission::Delete => Type_Permission::Delete,
-            Type_Permission::List => Type_Permission::List
         ];
     }
 }

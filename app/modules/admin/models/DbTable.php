@@ -2,6 +2,7 @@
 
 namespace crudle\app\admin\models;
 
+use crudle\app\admin\enums\Type_Relation;
 use crudle\app\main\models\base\BaseActiveRecord;
 
 class DbTable extends BaseActiveRecord
@@ -18,14 +19,27 @@ class DbTable extends BaseActiveRecord
         return 'TABLES';
     }
 
-    public function rules()
+    public static function relations()
     {
         return [
-            ['TABLE_SCHEMA', 'required', 'on' => 'index'],
-            [['TABLE_SCHEMA', 'TABLE_NAME', 'TABLE_COLLATION'], 'string', 'max' => 140],
-            ['TABLE_COMMENT', 'safe'],
-            // [['ENGINE', 'range', 'in' => Db_Engine_Type::enums()],
-            [['TABLE_ROWS', 'AUTO_INCREMENT'], 'integer'],
+            'database' => [
+                'class' => Database::class,
+                'type' => Type_Relation::ParentModel
+            ],
+            'dbTableColumn' => [
+                'class' => DbTableColumn::class,
+                'type' => Type_Relation::ChildModel
+            ],
         ];
+    }
+
+    public function getDatabase()
+    {
+        return $this->hasOne(Database::class, ['TABLE_SCHEMA' => 'SCHEMA_NAME']);
+    }
+
+    public function getDbTableColumn()
+    {
+        return $this->hasMany(DbTableColumn::class, ['TABLE_NAME' => 'TABLE_NAME']);
     }
 }

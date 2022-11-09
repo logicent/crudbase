@@ -34,7 +34,7 @@ echo
         'checkboxColumn'=> $checkboxColumn,
         // 'linkColumn'    => $linkColumn,
         // 'statusColumn'  => $statusColumn,
-        // 'columns'       => $columns,
+        'columns'       => $columns,
         // 'idColumn'      => $idColumn,
         // 'tsColumn'      => $tsColumn,
     ]);

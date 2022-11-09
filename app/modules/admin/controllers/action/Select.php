@@ -5,6 +5,7 @@ namespace crudle\app\admin\controllers\action;
 use Yii;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
+use yii\db\mysql\Schema;
 use yii\db\Query;
 use yii\helpers\StringHelper;
 
@@ -30,6 +31,7 @@ class Select extends Action
 
         $searchModelClass = $this->controller->searchModelClass();
         $data = [
+            'columns' => $this->_getTableColumns($baseTable),
             'formModel' => $this->controller->formModel,
             'searchModel' => new $searchModelClass(),
             'dataProvider' => $dataProvider,
@@ -40,5 +42,12 @@ class Select extends Action
             return $this->controller->render('/_listindex', $data);
         else
             return $this->controller->render('/_list/index', $data);
+    }
+
+    private function _getTableColumns($tableSchema)
+    {
+        $schema = Yii::$app->db->schema->getTableSchema($tableSchema);
+
+        return array_keys($schema->columns);
     }
 }

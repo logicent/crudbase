@@ -37,12 +37,6 @@ class DataImport extends BaseActiveRecord
 
     public static function autoSuggestIdType()
     {
-        return Type_Model_Id::GeneratedUuid;
+        // return Type_Model_Id::GeneratedUuid;
     }
-
-    // public static function relations()
-    // {
-    //     return [
-    //     ];
-    // }
 }
