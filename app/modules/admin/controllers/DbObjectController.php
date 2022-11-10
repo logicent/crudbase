@@ -9,6 +9,7 @@ use crudle\app\main\controllers\base\BaseViewController;
 use crudle\app\main\controllers\base\FormInterface;
 use crudle\app\main\controllers\base\ListViewInterface;
 use crudle\app\main\enums\Type_View;
+use Yii;
 
 abstract class DbObjectController extends BaseViewController implements ListViewInterface, FormInterface
 {
@@ -46,10 +47,6 @@ abstract class DbObjectController extends BaseViewController implements ListView
         return DatabaseForm::class;
     }
 
-    // public function formModel()
-    // {
-    // }
-
     // ListViewInterface
     public function listRouteId(): string
     {
@@ -70,15 +67,5 @@ abstract class DbObjectController extends BaseViewController implements ListView
     public function defaultActionViewType()
     {
         return Type_View::List;
-    }
-
-    public function showViewHeader(): bool
-    {
-        return true;
-    }
-
-    public function showViewSidebar(): bool
-    {
-        return true;
     }
 }

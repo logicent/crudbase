@@ -12,6 +12,8 @@ use yii\filters\VerbFilter;
 
 class AdminController extends BaseViewController
 {
+    public $layout = '@appMain/views/_layouts/site';
+
     public function behaviors()
     {
         return [
@@ -62,8 +64,6 @@ class AdminController extends BaseViewController
 
     public function actionLogin()
     {
-        $this->layout = '@appMain/views/_layouts/site';
-
         $model = new LoginForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate())

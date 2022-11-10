@@ -2,6 +2,7 @@
 
 namespace crudle\app\admin\controllers\action;
 
+use crudle\app\admin\controllers\base\BaseAction;
 use Yii;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
@@ -9,12 +10,12 @@ use yii\db\mysql\Schema;
 use yii\db\Query;
 use yii\helpers\StringHelper;
 
-class Select extends Action
+class Select extends BaseAction
 {
     public function run()
     {
-        if (!Yii::$app->session->has('dbConfig'))
-            return $this->controller->redirect(['/app/login']);
+        // if (!Yii::$app->session->has('dbConfig'))
+        //     return $this->controller->redirect(['/app/login']);
 
         $baseTableInfo = $this->controller->modelClass()::find()->where(['TABLE_NAME' => Yii::$app->request->queryParams['TABLE_NAME']])->one();
         $tableSchema = $baseTableInfo->TABLE_SCHEMA;

@@ -3,11 +3,8 @@
 namespace crudle\app\admin\controllers;
 
 use crudle\app\admin\forms\ImportForm;
-use crudle\app\main\controllers\base\BaseViewController;
-use crudle\app\main\enums\Type_View;
-use Yii;
 
-class ImportController extends BaseViewController
+class ImportController extends DbFormController
 {
     public function actions()
     {
@@ -26,19 +23,9 @@ class ImportController extends BaseViewController
         return $this->render('index', ['model' => $model]);
     }
 
-    // ViewInterface
-    public function defaultActionViewType()
+    // FormInterface
+    public function formModelClass(): string
     {
-        return Type_View::Workspace;
-    }
-
-    public function showViewHeader(): bool
-    {
-        return true;
-    }
-
-    public function showViewSidebar(): bool
-    {
-        return true;
+        return ImportForm::class;
     }
 }

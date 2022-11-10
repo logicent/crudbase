@@ -4,8 +4,8 @@ use yii\helpers\Html;
 use icms\FomanticUI\Elements;
 
 
-$username = Yii::$app->session->get('dbConfig')['username'];
-$host = Yii::$app->session->get('dbInfo')['host'];
+$username = Yii::$app->session->has('dbConfig') ? Yii::$app->session->get('dbConfig')['username'] : null;
+$host = Yii::$app->session->has('dbInfo') ? Yii::$app->session->get('dbInfo')['host'] : null;
 ?>
 <div class="ui dropdown item right">
 <?php

@@ -3,13 +3,10 @@
 namespace crudle\app\admin\controllers\action;
 
 use crudle\app\admin\controllers\base\BaseAction;
-use crudle\app\admin\forms\DbTableForm;
-use crudle\app\admin\models\DbTable;
 use Yii;
-use yii\base\Action;
 use yii\helpers\StringHelper;
 
-class Index extends Action
+class Index extends BaseAction
 {
     public function run()
     {

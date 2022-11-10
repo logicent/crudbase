@@ -46,11 +46,14 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
             return $this->redirect(['/app/login']);
         }
 
-        Yii::$app->set('db', Yii::$app->session->get('dbConfig'));
+        if (!parent::beforeAction($action)) {
+            return false; // do not run the action
+        }
 
+        Yii::$app->set('db', Yii::$app->session->get('dbConfig'));
         Url::remember(Yii::$app->request->getUrl(), 'go back');
 
-        return parent::beforeAction($action);
+        return true; // run the action
     }
 
     // public function afterAction($action, $result)
