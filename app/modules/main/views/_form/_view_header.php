@@ -1,5 +1,6 @@
 <?php
 
+use crudle\app\assets\Dirrty;
 use crudle\app\main\enums\Type_View;
 use crudle\app\main\models\ActiveRecord;
 use crudle\app\setup\enums\Status_Transaction;
@@ -8,6 +9,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use icms\FomanticUI\Elements;
 
+Dirrty::register($this);
 ?>
 
 <!-- If form is dirty !!! then show reminder to save -->

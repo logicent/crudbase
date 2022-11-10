@@ -14,6 +14,7 @@ $menuItems = [
         'inactive' => false,
     ],
     // https://www.sqltutorial.org/
+    // https://sqlfordevs.com/tips
 ];
 ?>
 

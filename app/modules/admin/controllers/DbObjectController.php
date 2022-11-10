@@ -57,6 +57,16 @@ abstract class DbObjectController extends BaseViewController implements ListView
     }
 
     // ViewInterface
+    public function getModel($id = null)
+    {
+        return $this->formModel;
+    }
+
+    public function setModel($model)
+    {
+        $this->formModel = $model;
+    }
+
     public function defaultActionViewType()
     {
         return Type_View::List;

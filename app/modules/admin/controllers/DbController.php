@@ -90,7 +90,21 @@ class DbController extends DbObjectController
     {}
 
     public function actionCreate()
-    {}
+    {
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+
+        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+            try {
+                Yii::$app->db->createCommand('CREATE DATABASE ' . $this->formModel->schemaName)->execute();
+                return $this->redirect(['index']);
+            } catch (\yii\db\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('/_form/index');
+    }
 
     // Rename ?
     public function actionAlter()

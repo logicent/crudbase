@@ -5,7 +5,8 @@ use crudle\app\main\enums\Type_Form_View;
 use yii\helpers\Html;
 
 
-if ($this->context->action->id == Resource_Action::Create ||
+if (
+    $this->context->action->id == Resource_Action::Create ||
     $this->context->action->id == Resource_Action::Update ||
     $this->context->formViewType() == Type_Form_View::Single
 ) :
