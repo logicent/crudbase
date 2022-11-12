@@ -21,15 +21,13 @@ $menuItems = [];
             <div class="six wide column right aligned">
                 <div class="page-actions"><!-- ui spaced buttons -->
             <?php
-                if ($controller->mapActionViewType() == Type_View::Form && $controller->action->id !== 'read') :
-                    // new or update record and settings form view
-                    echo $this->render('@appMain/views/_form/_view_header');
-                elseif ($controller->mapActionViewType() == Type_View::List) :
-                    // all multiple record views like list view
-                    if ($controller->showViewTypeSwitcher())
-                        echo $this->render('_view_type');
-                    echo $this->render('@appMain/views/list/_view_header');
-                endif ?>
+                // new or update record and settings form view
+                // if ($controller->viewType() == Type_View::Form) :
+                    echo $this->render('@appMain/views/_form/action');
+                // other multiple records views like list view
+                // elseif ($controller->viewType() == Type_View::List) :
+                    echo $this->render('@appMain/views/list/actions');
+                // endif ?>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <?php
 
-use crudle\app\setup\enums\Type_Permission;
+// use crudle\app\setup\enums\Type_Permission;
 use crudle\app\main\enums\Resource_Action;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -17,29 +17,29 @@ use icms\FomanticUI\modules\Modal;
         $this->context->action->id == Resource_Action::Read || 
         $this->context->action->id == Resource_Action::Update
     ) :
-        if ($model->allowPrint() && $model->userCan(Type_Permission::Print, Yii::$app->user->id)) :
+        // if ($model->allowPrint() && $model->userCan(Type_Permission::Print, Yii::$app->user->id)) :
             echo Html::a(Yii::t('app', 'Print'), ['export-pdf', 'id' => $model->id], [
                     'class' => 'item user-action',
                     'data' => ['method' => 'post']
                 ]);
-        endif;
-        if ($model->allowSendEmail() && $model->userCan(Type_Permission::Email, Yii::$app->user->id)) :
+        // endif;
+        // if ($model->allowSendEmail() && $model->userCan(Type_Permission::Email, Yii::$app->user->id)) :
             echo Html::a(Yii::t('app', 'Email'), false, [
                 'class' => 'item user-action',
                 'data' => ['url' => Url::to(['email'])]
             ]);
-        endif;
-        if ($model->allowDuplicate() && $model->userCan(Type_Permission::Create, Yii::$app->user->id)) :
+        // endif;
+        // if ($model->allowDuplicate() && $model->userCan(Type_Permission::Create, Yii::$app->user->id)) :
             echo Html::a(Yii::t('app', 'Duplicate'), ['create', 'id' => $model->id], [
                 'class' => 'item user-action',
             ]);
-        endif;
-        if ($model->userCan(Type_Permission::Create, Yii::$app->user->id)) :
+        // endif;
+        // if ($model->userCan(Type_Permission::Create, Yii::$app->user->id)) :
             echo Html::a(Yii::t('app', 'New') .' '. $this->context->viewName(), ["create"], 
                 ['class' => 'item']
             );
-        endif;
-        if (! $model->lockDelete() && $model->userCan(Type_Permission::Delete, Yii::$app->user->id)) :
+        // endif;
+        // if (! $model->lockDelete() && $model->userCan(Type_Permission::Delete, Yii::$app->user->id)) :
             echo Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
                 'class' => 'item user-action',
                 'data' => [
@@ -47,7 +47,7 @@ use icms\FomanticUI\modules\Modal;
                     'method' => 'post'
                 ]
             ]);
-        endif;
+        // endif;
     endif ?>
     </div><!-- ./menu -->
 </div>

@@ -36,10 +36,10 @@ use icms\FomanticUI\Elements;
             </div>
             <div class="computer only large screen only ten wide column item">
             <?php
-                // echo $this->render('../_nav_new');
-                echo $this->render('../_global_search');
-                echo $this->render('../_nav_help');
-                echo $this->render('../_nav_user') ?>
+                // echo $this->render('../_nav/_menu_create');
+                echo $this->render('../_nav/_search_input');
+                echo $this->render('../_nav/_menu_help');
+                echo $this->render('../_nav/_menu_user') ?>
             </div>
         </div><!-- ./ui three column grid -->
     </nav>

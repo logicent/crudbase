@@ -60,12 +60,12 @@ if (Yii::$app->session->hasFlash('errors')) : ?>
         <?= $this->title ?>
       </div>
       <ul class="list">
-      <?php
+        <?php
         $messages = '';
         $errors = Yii::$app->session->getFlash('errors');
 
         foreach ($errors as $key => $error) :
-            $messages .= Html::tag('li', $error[0]);
+          $messages .= Html::tag('li', $error[0]);
         endforeach;
 
         echo $messages;

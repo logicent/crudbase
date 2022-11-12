@@ -15,23 +15,23 @@ endif;
 
 $sidebarMenus = $this->context->sidebarMenus();
 if (empty($sidebarMenus)) : // fetch the default sidebar menus
-        $sidebarMenus = require Yii::getAlias('@appMain/views/_layouts/_main_sidebar__menu.php');
+        $sidebarMenus = require Yii::getAlias('@appMain/views/_layouts/_main_sidebar_menu.php');
 endif;
 ?>
 
-<div class="computer only large screen only one wide column" id="crudle__main_sidebar" style="background: inherit">
+<div class="computer only large screen only one wide column" id="_sidebar_main" style="background: inherit">
         <div class="ui visible icon sidebar vertical menu">
-<?php
-        foreach ($sidebarMenus as $sidebarMenu) :
-                $menuRoute = explode('/', $sidebarMenu['route']);
-                // avoid -1 issue if index is last key is 0
-                $menuIndex = count($menuRoute) > 1 ? count($menuRoute) - 1 : 0;
-                echo Html::a(
-                        Elements::icon($sidebarMenu['icon']) . Yii::t('app', $sidebarMenu['label']),
-                        ["/app/{$sidebarMenu['route']}"],
-                        ['class' => $moduleSegment == $menuRoute[$menuIndex] ? 'item active' : 'item'],
-                );
-        endforeach ?>
+                <?php
+                foreach ($sidebarMenus as $sidebarMenu) :
+                        $menuRoute = explode('/', $sidebarMenu['route']);
+                        // avoid -1 issue if index is last key is 0
+                        $menuIndex = count($menuRoute) > 1 ? count($menuRoute) - 1 : 0;
+                        echo Html::a(
+                                Elements::icon($sidebarMenu['icon']) . Yii::t('app', $sidebarMenu['label']),
+                                ["/app/{$sidebarMenu['route']}"],
+                                ['class' => $moduleSegment == $menuRoute[$menuIndex] ? 'item active' : 'item'],
+                        );
+                endforeach ?>
         </div>
 </div>
 
