@@ -23,7 +23,30 @@ $form = ActiveForm::begin([
         'autocomplete' => 'off',
         'class' => 'ui form',
     ],
-]);
+]) ?>
+    <div class="two fields">
+        <div class="field">
+            <?= $this->render('@appMain/views/_form_field/radio_list', [
+                'model' => $model,
+                'form' => $form,
+                'fieldOptions' => $fieldOptions,
+                'attribute' => 'output',
+                'items' => Export_Output::enums(),
+                'inline' => true,
+            ]) ?>
+        </div>
+        <div class="field">
+            <?= $this->render('@appMain/views/_form_field/radio_list', [
+                'model' => $model,
+                'form' => $form,
+                'fieldOptions' => $fieldOptions,
+                'attribute' => 'format',
+                'items' => Export_Format::enums(),
+                'inline' => true,
+            ]) ?>
+        </div>
+    </div>
+<?php
     echo $this->render('@appMain/views/_form_field/dropdown', [
         'model' => $model,
         'form' => $form,
@@ -37,18 +60,19 @@ $form = ActiveForm::begin([
         ],
         'htmlOptions' => ['style' => 'font-size: 16px; width: 330px;']
     ]);
-    echo $this->render('@appMain/views/_form_field/checkbox', [
-        'model' => $model,
-        'form' => $form,
-        'fieldOptions' => $fieldOptions,
-        'attribute' => 'routines',
-    ]);
-    echo $this->render('@appMain/views/_form_field/checkbox', [
-        'model' => $model,
-        'form' => $form,
-        'fieldOptions' => $fieldOptions,
-        'attribute' => 'events',
-    ]);
+    // echo $this->render('@appMain/views/_form_field/checkbox', [
+    //     'model' => $model,
+    //     'form' => $form,
+    //     'fieldOptions' => $fieldOptions,
+    //     'attribute' => 'routines',
+    // ]);
+    // echo '&emsp;';
+    // echo $this->render('@appMain/views/_form_field/checkbox', [
+    //     'model' => $model,
+    //     'form' => $form,
+    //     'fieldOptions' => $fieldOptions,
+    //     'attribute' => 'events',
+    // ]);
     echo $this->render('@appMain/views/_form_field/dropdown', [
         'model' => $model,
         'form' => $form,
@@ -61,18 +85,19 @@ $form = ActiveForm::begin([
         ],
         'htmlOptions' => ['style' => 'font-size: 16px; width: 330px;']
     ]);
-    echo $this->render('@appMain/views/_form_field/checkbox', [
-        'model' => $model,
-        'form' => $form,
-        'fieldOptions' => $fieldOptions,
-        'attribute' => 'autoIncrement',
-    ]);
-    echo $this->render('@appMain/views/_form_field/checkbox', [
-        'model' => $model,
-        'form' => $form,
-        'fieldOptions' => $fieldOptions,
-        'attribute' => 'triggers',
-    ]);
+    // echo $this->render('@appMain/views/_form_field/checkbox', [
+    //     'model' => $model,
+    //     'form' => $form,
+    //     'fieldOptions' => $fieldOptions,
+    //     'attribute' => 'autoIncrement',
+    // ]);
+    // echo '&emsp;';
+    // echo $this->render('@appMain/views/_form_field/checkbox', [
+    //     'model' => $model,
+    //     'form' => $form,
+    //     'fieldOptions' => $fieldOptions,
+    //     'attribute' => 'triggers',
+    // ]);
     echo $this->render('@appMain/views/_form_field/dropdown', [
         'model' => $model,
         'form' => $form,
@@ -85,22 +110,6 @@ $form = ActiveForm::begin([
             'truncate_insert' => 'TRUNCATE+INSERT',
         ],
         'htmlOptions' => ['style' => 'font-size: 16px; width: 330px;']
-    ]);
-    echo $this->render('@appMain/views/_form_field/radio_list', [
-        'model' => $model,
-        'form' => $form,
-        'fieldOptions' => $fieldOptions,
-        'attribute' => 'format',
-        'items' => Export_Format::enums(),
-        'inline' => true,
-    ]);
-    echo $this->render('@appMain/views/_form_field/radio_list', [
-        'model' => $model,
-        'form' => $form,
-        'fieldOptions' => $fieldOptions,
-        'attribute' => 'output',
-        'items' => Export_Output::enums(),
-        'inline' => true,
     ]);
     // $tables = DbTable::find()->select('TABLE_NAME', 'TABLE_ROWS')->where(['TABLE_SCHEMA' => $model->schemaName])->asArray()->all();
     // foreach ($tables as $index => $table) :

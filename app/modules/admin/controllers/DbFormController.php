@@ -11,19 +11,6 @@ abstract class DbFormController extends BaseViewController implements FormInterf
 {
     public $formModel;
 
-    public function beforeAction($action)
-    {
-        // If database credentials not found
-        if (!Yii::$app->session->has('dbConfig'))
-            return $this->redirect(['/app/login']);
-
-        if (!parent::beforeAction($action)) {
-            return false; // do not run the action
-        }
-
-        return true; // run the action
-    }
-
     // FormInterface
     public function formModelClass(): string
     {

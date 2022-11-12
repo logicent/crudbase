@@ -22,6 +22,25 @@ $form = ActiveForm::begin([
         'class' => 'ui form',
     ],
 ]);
+    echo $this->render('@appMain/views/_form_field/textarea', [
+        'model' => $model,
+        'attribute' => 'queryCmd',
+        'form' => $form,
+        'rows' => 12,
+        'label' => false,
+    ]);
+    echo $form->field($model, 'limitRows', $fieldOptions);
 
+    echo $this->render('@appMain/views/_form_field/checkbox', [
+        'model' => $model,
+        'attribute' => 'stopOnError',
+        'form' => $form,
+    ]);
+    echo '&emsp;';
+    echo $this->render('@appMain/views/_form_field/checkbox', [
+        'model' => $model,
+        'attribute' => 'showOnlyErrors',
+        'form' => $form,
+    ]);
 ActiveForm::end() ?>
 </div>

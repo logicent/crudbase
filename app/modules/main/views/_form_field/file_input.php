@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use icms\FomanticUI\Elements;
 
 // To-Do: allow custom placeholder default to none
-$placeholder = in_array('placeholder',array_keys(get_defined_vars())) ? $placeholder : null;
+$placeholder = in_array('placeholder', array_keys(get_defined_vars())) ? $placeholder : null;
 $imgPlaceholder = Yii::getAlias('@web') . $placeholder;
 $imgPath = Yii::getAlias('@web/uploads/') . $model->$attribute;
 $btnTag = Elements::button(Yii::t('app', 'Attach'), [
@@ -21,7 +21,7 @@ $imgTag = Elements::image($model->$attribute != '' ?
 echo
     Html::beginTag('div', ['class' => 'field']) .
         Html::activeFileInput( $model->uploadForm, 'file_upload', [
-            'accept' => isset($fileTypes) ? $fileTypes : 'image/*', 'style' => 'display: none'
+            'accept' => isset($fileTypes) ? $fileTypes : '*', 'style' => 'display: none'
         ]) .
         // $form->field($model, $attribute)->hiddenInput(['class' => 'file-path']) .
         Html::activeHiddenInput($model, $attribute, [

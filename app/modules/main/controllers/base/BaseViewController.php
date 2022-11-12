@@ -41,9 +41,10 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
         {
             $headers = Yii::$app->request->headers;
             if ($headers->has('HX-Request'))
-                return $this->redirect(['/app/login'], 302); // !! Experimental : Testing behavior
-            // else
-            return $this->redirect(['/app/login']);
+                $this->redirect(['/app/login'], 302); // !! Experimental : Testing behavior
+            else
+                $this->redirect(['/app/login']);
+            return false; // do not run the action
         }
 
         if (!parent::beforeAction($action)) {

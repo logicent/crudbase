@@ -7,7 +7,7 @@ use yii\base\Model;
 class DatabaseForm extends Model
 {
     public $schemaName;
-    public $collation = '(collation)';
+    public $collation = 'latin1_swedish_ci'; // '(collation)';
     public $tables;
 
     public function rules()

@@ -20,8 +20,26 @@ $form = ActiveForm::begin([
     'options' => [
         'autocomplete' => 'off',
         'class' => 'ui form',
+        'enctype' => 'multipart/form-data'
     ],
 ]);
+    echo $this->render('@appMain/views/_form_field/file_input_file', [
+        'model' => $model,
+        'attribute' => $model->fileAttribute,
+        'fileType' => $model->fileType,
+        'placeholder' => 'SQL[.gz] (< 24MB):'
+    ]);
 
+    echo $this->render('@appMain/views/_form_field/checkbox', [
+        'model' => $model,
+        'attribute' => 'stopOnError',
+        'form' => $form,
+    ]);
+    echo '&emsp;';
+    echo $this->render('@appMain/views/_form_field/checkbox', [
+        'model' => $model,
+        'attribute' => 'showOnlyErrors',
+        'form' => $form,
+    ]);
 ActiveForm::end() ?>
 </div>
