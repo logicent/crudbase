@@ -6,13 +6,7 @@ interface ListViewInterface
 {
     public function listRouteId(): string;
 
-    // public function listviewType(); // enum
+    public function showBatchActions(): bool;
 
-    // public function showBatchActions(): bool;
-
-    // public function batchActionsMenu(): array;
-
-    // public function showListMenu(): bool;
-
-    // public function listMenu(): array;
+    public function batchActionsMenu(): array;
 }

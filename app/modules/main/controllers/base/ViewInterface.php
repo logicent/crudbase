@@ -2,6 +2,8 @@
 
 namespace crudle\app\main\controllers\base;
 
+use crudle\app\main\enums\Type_View;
+
 interface ViewInterface
 {
     public function viewName(): string;
@@ -9,21 +11,19 @@ interface ViewInterface
     // tabs support - multiple views of type
     public function showTabbedViews(): bool;
 
-    public function mapActionViewType();
+    public function mapActionToViewType();
+    // public function mapActionToViewSubtype();
+
     public function defaultActionViewType();
-    // defaultRoute
-    // mapViewToActions
-    // mapViewTypeToActions
-    // mapViewSubTypeToActions
 
-    // defaultView
-    // defaultViewAction
-    // defaultViewTypeAction
-    // defaultViewSubTypeAction
-
-    // mainAction
-    // otherActions
-    // userActions
+    // primary action
+    public function mainAction();
+    // secondary action(s)
+    public function viewActions(): array;
+    // context action(s)
+    public function menuActions(): array;
+    // custom? action(s)
+    public function userActions(): array;
 
     public function showViewTypeSwitcher(): bool;
     public function showViewFilterButton(): bool;

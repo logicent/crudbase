@@ -9,7 +9,7 @@ use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
 
-abstract class BaseViewController extends BaseController implements LayoutInterface, ViewInterface
+abstract class BaseViewController extends BaseController implements LayoutInterface, ViewInterface, ListViewInterface
 {
     protected $name; // view name
     protected $validationErrors = [];
@@ -33,12 +33,10 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
 
     public function beforeAction($action)
     {
-        // If database credentials not found
-        if (!Yii::$app->session->has('dbConfig') &&
-            $this->action->id !== '' &&
-            $this->action->id !== 'login'
-        )
+        // when database credentials not found
+        if (!Yii::$app->session->has('dbConfig') && $this->action->id !== 'login')
         {
+            Url::remember(Yii::$app->request->getUrl(), 'go back');
             $headers = Yii::$app->request->headers;
             if ($headers->has('HX-Request'))
                 $this->redirect(['/app/login'], 302); // !! Experimental : Testing behavior
@@ -50,9 +48,8 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
         if (!parent::beforeAction($action)) {
             return false; // do not run the action
         }
-
+        // add db component to the app instance
         Yii::$app->set('db', Yii::$app->session->get('dbConfig'));
-        Url::remember(Yii::$app->request->getUrl(), 'go back');
 
         return true; // run the action
     }
@@ -92,7 +89,7 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
         return false;
     }
 
-    public function mapActionViewType()
+    public function mapActionToViewType()
     {
         switch ($this->action->id)
         {
@@ -109,6 +106,26 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
                 return $this->defaultActionViewType();
         }
     }
+
+    public function mainAction()
+    {
+    }
+
+    public function viewActions(): array
+    {
+        return [];
+    }
+
+    public function menuActions(): array
+    {
+        return [];
+    }
+
+    public function userActions(): array
+    {
+        return [];
+    }
+
 
     public function showViewTypeSwitcher(): bool
     {
@@ -233,6 +250,22 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
     {}
 
     public function validationErrors(): array
+    {
+        return [];
+    }
+
+    // ListViewInterface
+    public function listRouteId(): string
+    {
+        return '';
+    }
+
+    public function showBatchActions(): bool
+    {
+        return true;
+    }
+
+    public function batchActionsMenu(): array
     {
         return [];
     }

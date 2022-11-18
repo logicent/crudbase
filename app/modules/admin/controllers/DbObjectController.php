@@ -11,7 +11,7 @@ use crudle\app\main\controllers\base\ListViewInterface;
 use crudle\app\main\enums\Type_View;
 use Yii;
 
-abstract class DbObjectController extends BaseViewController implements ListViewInterface, FormInterface
+abstract class DbObjectController extends BaseViewController
 {
     public $formModel;
 

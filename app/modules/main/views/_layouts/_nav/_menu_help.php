@@ -15,6 +15,7 @@ $menuItems = [
     ],
     // https://www.sqltutorial.org/
     // https://sqlfordevs.com/tips
+    // https://mode.com/sql-tutorial/
 ];
 ?>
 

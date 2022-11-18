@@ -56,9 +56,6 @@ class AdminController extends BaseViewController
 
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest)
-            return $this->redirect(['login']);
-        // else
         return $this->render('index');
     }
 
@@ -77,11 +74,11 @@ class AdminController extends BaseViewController
                     'database' => $model->useDatabase(),
                 ];
                 Yii::$app->session->set('dbInfo', $dbInfo);
-                if (empty($model->database))
-                    $route = 'db';
-                else
-                    $route = 'db-table';
-                return $this->redirect(["/app/$route"]); // return $this->goBack();}
+                // if (empty($model->database))
+                //     $route = 'db';
+                // else
+                //     $route = 'db-table';
+                return $this->goBack(); // $this->redirect(["/app/$route"]);
             }
 
         $model->password = ''; // clear the password
@@ -93,7 +90,7 @@ class AdminController extends BaseViewController
 
     public function actionLogout()
     {
-        Yii::$app->session->destroy(); // Clear all cached settings
+        Yii::$app->session->destroy(); // clear all cached settings
         Yii::$app->app->db->close();
 
         return $this->redirect(['/app/login']);
