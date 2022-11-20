@@ -64,7 +64,7 @@ class DbTableController extends DbObjectController
         // if ($isAjaxRequest) // renderAjax
         //     return $this->render('/_list/index', $data);
         // else
-            return $this->render('/_list/index', $data);
+            return $this->render('index', $data);
     }
 
     private function _getTableColumns($tableSchema)
