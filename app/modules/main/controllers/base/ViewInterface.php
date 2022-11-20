@@ -14,7 +14,7 @@ interface ViewInterface
     public function mapActionToViewType();
     // public function mapActionToViewSubtype();
 
-    public function defaultActionViewType();
+    // public function defaultActionViewType();
 
     // primary action
     public function mainAction();

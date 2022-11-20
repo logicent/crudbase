@@ -14,9 +14,6 @@ class Select extends BaseAction
 {
     public function run()
     {
-        // if (!Yii::$app->session->has('dbConfig'))
-        //     return $this->controller->redirect(['/app/login']);
-
         $baseTableInfo = $this->controller->modelClass()::find()->where(['TABLE_NAME' => Yii::$app->request->queryParams['TABLE_NAME']])->one();
         $tableSchema = $baseTableInfo->TABLE_SCHEMA;
         $baseTable = $tableSchema .'.'. Yii::$app->request->queryParams['TABLE_NAME'];

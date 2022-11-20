@@ -3,14 +3,14 @@
 return [
         // [
         //         'icon' => 'grey server large',
-        //         'route' => 'db-server',
+        //         'route' => 'server',
         //         'label' => 'Servers',
         // ],
-        [
-                'icon' => 'grey database large',
-                'route' => 'db',
-                'label' => 'Databases',
-        ],
+        // [
+        //         'icon' => 'grey database large',
+        //         'route' => 'db',
+        //         'label' => 'Databases',
+        // ],
         [
                 'icon' => 'grey code large',
                 'route' => 'db-cmd',

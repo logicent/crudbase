@@ -21,19 +21,6 @@ class HomeController extends BaseViewController
      */
     public function actionIndex()
     {
-        if (!Yii::$app->session->has('dbConfig'))
-            return $this->redirect(['/app/login']);
-
-        $model = new LoginForm();
-        // reconnect to set/default database
-        $dbConfig = array_merge(
-            Yii::$app->session->get('dbConfig'),
-            Yii::$app->session->get('dbInfo')
-        );
-        $model->attributes = $dbConfig;
-        $model->setDbConfig(Yii::$app->session->get('dbConfig'));
-        $model->establishConnection();
-
         return $this->render('index');
     }
 

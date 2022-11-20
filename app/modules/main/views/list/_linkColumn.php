@@ -18,7 +18,7 @@ return [
             }
             $attribute = $column->attribute;
             $linkId = $model->listSettings->listIdAttribute;
-            $route = '/'. $this->context->module->id .'/'. $this->context->listRouteId();
+            $route = '/app' . '/' . $this->context->listRouteId();
 
             $linkColumn = Html::a( $model->$attribute,
                                 Url::to([$route, $linkId => $model->{$linkId}]),

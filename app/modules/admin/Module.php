@@ -40,7 +40,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
                 ['class' => 'yii\web\UrlRule', 'pattern' => 'app/login', 'route' => $this->id . '/admin/login'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => 'app/logout', 'route' => $this->id . '/admin/logout'],
 
-                ['class' => 'yii\web\UrlRule', 'pattern' => 'app/db-server', 'route' => $this->id . '/db-server/index'],
+                ['class' => 'yii\web\UrlRule', 'pattern' => 'app/server', 'route' => $this->id . '/server/index'],
 
                 ['class' => 'yii\web\UrlRule', 'pattern' => 'app/db', 'route' => $this->id . '/db/index'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => 'app/db/create', 'route' => $this->id . '/db/create'],

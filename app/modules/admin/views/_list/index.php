@@ -6,11 +6,7 @@ $context = $this->context;
 $module = $this->context->module;
 
 $this->title = Yii::t('app', 'Database: ') . $formModel->schemaName;
-$this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', '{dbServer}', ['dbServer' => 'MySQL']), // fetch the server name in context
-    'url' => ['/app/db-server']
-];
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Server'), 'url' => ['/app/db']];
+echo $this->render('/_view/_breadcrumb');
 $this->params['breadcrumbs'][] = ['label' => $formModel->schemaName];
 
 $searchForm = $context->viewPath . '/_search.php';

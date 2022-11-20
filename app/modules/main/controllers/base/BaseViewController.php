@@ -89,6 +89,65 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
         return false;
     }
 
+    public function pageNavbar(): string
+    {
+        return $this->layout . '/_navbar';
+    }
+
+    public function showMainSidebar(): bool
+    {
+        return true;
+    }
+
+    public function sidebarMenus(): array
+    {
+        return [];
+    }
+
+    public function sidebarColWidth(): string
+    {
+        return 'three';
+    }
+
+    public function mainColumnWidth(): string
+    {
+        return 'twelve';
+    }
+
+    public function fullColumnWidth(): string
+    {
+        return 'fourteen';
+    }
+
+    public function showActiveUsers(): bool
+    {
+        return false;
+    }
+
+    // ViewInterface
+    public function viewName(): string
+    {
+        return $this->name;
+    }
+
+    public function showTabbedViews(): bool
+    {
+        return false;
+    }
+
+    public function searchModelClass(): string
+    {
+        return '';
+    }
+
+    public function searchModel()
+    {}
+
+    public function modelClass(): string
+    {
+        return '';
+    }
+
     public function mapActionToViewType()
     {
         switch ($this->action->id)
@@ -126,7 +185,6 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
         return [];
     }
 
-
     public function showViewTypeSwitcher(): bool
     {
         return false;
@@ -145,17 +203,7 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
     {
     }
 
-    public function pageNavbar(): string
-    {
-        return $this->layout . '/_navbar';
-    }
-
     public function showViewHeader(): bool
-    {
-        return true;
-    }
-
-    public function showMainSidebar(): bool
     {
         return true;
     }
@@ -177,26 +225,6 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
         }
     }
 
-    public function sidebarMenus(): array
-    {
-        return [];
-    }
-
-    public function sidebarColWidth(): string
-    {
-        return 'three';
-    }
-
-    public function mainColumnWidth(): string
-    {
-        return 'twelve';
-    }
-
-    public function fullColumnWidth(): string
-    {
-        return 'fourteen';
-    }
-
     public function showQuickReportMenu(): bool
     {
         return false;
@@ -205,35 +233,6 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
     public function quickReportMenu(): array
     {
         return [];
-    }
-
-    public function showActiveUsers(): bool
-    {
-        return false;
-    }
-
-    // ViewInterface
-    public function viewName(): string
-    {
-        return $this->name;
-    }
-
-    public function showTabbedViews(): bool
-    {
-        return false;
-    }
-
-    public function searchModelClass(): string
-    {
-        return '';
-    }
-
-    public function searchModel()
-    {}
-
-    public function modelClass(): string
-    {
-        return '';
     }
 
     public function getModel($id = null)

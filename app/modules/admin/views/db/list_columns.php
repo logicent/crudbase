@@ -1,34 +1,25 @@
 <?php
 
-use yii\db\Expression;
-
 return [
+    'ENGINE',
+    'TABLE_COLLATION',
     [
-        'attribute' => 'DEFAULT_COLLATION_NAME',
-    ],
-    [
-        'attribute' => 'tables',
+        'attribute' => 'TABLE_ROWS',
         'headerOptions' => [
-            'class' => 'list-header computed-stat right aligned'
+            'class' => 'right aligned'
         ],
-        'value' => function ($model) {
-            return $model->getDbTable()->count();
-        },
         'contentOptions' => [
             'class' => 'right aligned'
         ]
     ],
     [
-        'attribute' => 'size',
+        'attribute' => 'AUTO_INCREMENT',
         'headerOptions' => [
-            'class' => 'list-header computed-stat right aligned'
+            'class' => 'right aligned'
         ],
-        'format' => 'integer',
-        'value' => function ($model) {
-            return $model->getDbTable()->sum(new Expression('DATA_LENGTH + INDEX_LENGTH'));
-        },
         'contentOptions' => [
             'class' => 'right aligned'
         ]
     ],
+    'TABLE_COMMENT'
 ];

@@ -30,9 +30,6 @@ class DbTriggerController extends DbObjectController
 
     public function actionIndex()
     {
-        if (!Yii::$app->session->has('dbConfig'))
-            return $this->redirect(['/app/login']);
-
         $searchModelClass = $this->searchModelClass();
         $searchModel = new $searchModelClass;
         // $searchClassname = StringHelper::basename($searchModelClass);
