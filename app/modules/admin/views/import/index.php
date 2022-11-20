@@ -3,7 +3,8 @@
 use icms\FomanticUI\widgets\ActiveForm;
 
 $this->title = Yii::t('app', 'Import');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Import'), 'url' => ['/app/db-import']];
+echo $this->render('/_view/_breadcrumb');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Import')];
 
 $fieldOptions = [
     'options' => ['class' => 'inline field'],

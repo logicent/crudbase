@@ -39,9 +39,9 @@ class DbTableController extends DbObjectController
 
     public function actionIndex()
     {
-        $baseTableInfo = $this->modelClass()::find()->where(['TABLE_NAME' => Yii::$app->request->queryParams['TABLE_NAME']])->one();
-        $tableSchema = $baseTableInfo->TABLE_SCHEMA;
-        $baseTable = $tableSchema .'.'. Yii::$app->request->queryParams['TABLE_NAME'];
+        $tableSchema = Yii::$app->request->queryParams['TABLE_SCHEMA'];
+        $tableName = Yii::$app->request->queryParams['TABLE_NAME'];
+        $baseTable = $tableSchema .'.'. $tableName;
         $query = (new Query())->from($baseTable);
 
         $dataProvider = new ActiveDataProvider([
@@ -59,8 +59,8 @@ class DbTableController extends DbObjectController
             'searchModel' => new $searchModelClass(),
             'dataProvider' => $dataProvider,
         ];
-        $headers = Yii::$app->request->headers;
-        $isAjaxRequest = Yii::$app->request->isAjax || $headers->has('HX-Request');
+        // $headers = Yii::$app->request->headers;
+        // $isAjaxRequest = Yii::$app->request->isAjax || $headers->has('HX-Request');
         // if ($isAjaxRequest) // renderAjax
         //     return $this->render('/_list/index', $data);
         // else

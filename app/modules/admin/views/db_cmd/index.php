@@ -3,7 +3,8 @@
 use icms\FomanticUI\widgets\ActiveForm;
 
 $this->title = Yii::t('app', 'SQL Command');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'SQL Command'), 'url' => ['/app/db-cmd']];
+echo $this->render('/_view/_breadcrumb');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'SQL Command')];
 
 $fieldOptions = [
     'options' => ['class' => 'inline field'],

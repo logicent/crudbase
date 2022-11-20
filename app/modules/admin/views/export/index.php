@@ -6,7 +6,8 @@ use crudle\app\admin\models\DbTable;
 use icms\FomanticUI\widgets\ActiveForm;
 
 $this->title = Yii::t('app', 'Export');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Export'), 'url' => ['/app/db-export']];
+echo $this->render('/_view/_breadcrumb');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Export')];
 
 $fieldOptions = [
     'options' => ['class' => 'inline field'],
