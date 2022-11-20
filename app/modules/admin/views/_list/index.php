@@ -17,20 +17,12 @@ if (file_exists($searchForm)) : ?>
 <?php endif;
 
 $checkboxColumn = require Yii::getAlias('@appMain/views/list/_checkboxColumn.php');
-// $linkColumn = require '_linkColumn.php';
-// $statusColumn = require '_statusColumn.php';
-// $columns = []; // require $context->viewPath . '/index.php';
-// $idColumn = require '_idColumn.php';
-// $tsColumn = require '_tsColumn.php';
+$actionColumn = require '_actionColumn.php';
 
 echo
     $this->render('GridView', [
         'dataProvider'  => $dataProvider, 
-        // 'searchModel'   => $searchModel,
         'checkboxColumn'=> $checkboxColumn,
-        // 'linkColumn'    => $linkColumn,
-        // 'statusColumn'  => $statusColumn,
+        'actionColumn'  => $actionColumn,
         'columns'       => $columns,
-        // 'idColumn'      => $idColumn,
-        // 'tsColumn'      => $tsColumn,
     ]);

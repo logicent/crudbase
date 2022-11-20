@@ -11,6 +11,7 @@ DataTable::register($this);
         //     'class' => 'ui left aligned small secondary header basic segment text-muted',
         //     'style' => 'font-weight: 500'
         // ],
+        // 'emptyCell' => '&nbsp;', // ?
         'emptyText' => Yii::t('app', 'No rows found'),
         'emptyTextOptions' => ['class' => 'ui small header center aligned text-muted'],
         'layout' => "{summary}\n{items}\n{pager}\n{errors}", // {sorter}
@@ -20,7 +21,7 @@ DataTable::register($this);
         'dataProvider' => $dataProvider,
         'columns' => ArrayHelper::merge(
             $checkboxColumn,
-            // $linkColumn,
+            $actionColumn,
             $columns,
         ) // array merge
     ]);
