@@ -2,10 +2,9 @@
 
 namespace crudle\app\admin\controllers;
 
-use crudle\app\main\controllers\base\BaseViewController;
+use crudle\app\admin\controllers\base\DbObjectController;
 use crudle\app\admin\models\Database;
 use crudle\app\admin\models\search\DatabaseSearch;
-use crudle\app\main\enums\Type_View;
 use Yii;
 use yii\helpers\StringHelper;
 

@@ -70,6 +70,7 @@ $config = [
         ],
         'formatter' => [
             'defaultTimeZone' => 'Africa/Nairobi',
+            'nullDisplay' => '<span class="not-set">NULL</span>',
         ],
     ],
     'modules' => $modules,

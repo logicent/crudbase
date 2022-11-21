@@ -2,7 +2,7 @@
 
 namespace crudle\app\admin\models;
 
-class DbTransaction_Status
+class Db_Transaction_Status
 {
     const BeginTrans= 'BeginTrans';
     const Rollback  = 'Rollback';

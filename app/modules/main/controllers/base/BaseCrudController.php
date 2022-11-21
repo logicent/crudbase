@@ -1,6 +1,6 @@
 <?php
 
-namespace crudle\app\admin\controllers\base;
+namespace crudle\app\main\controllers\base;
 
 use crudle\app\helpers\Uploader;
 use crudle\app\main\controllers\base\BaseViewController;

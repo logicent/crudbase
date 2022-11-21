@@ -259,6 +259,11 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
         return '';
     }
 
+    public function listRouteParams(): array
+    {
+        return [];
+    }
+
     public function showBatchActions(): bool
     {
         return true;

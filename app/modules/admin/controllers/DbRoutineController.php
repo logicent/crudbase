@@ -2,12 +2,11 @@
 
 namespace crudle\app\admin\controllers;
 
-use crudle\app\admin\controllers\action\Select;
+use crudle\app\admin\controllers\base\DbObjectController;
 use crudle\app\admin\models\DbTable;
 use crudle\app\admin\models\search\DbTableSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\helpers\StringHelper;
 
 class DbRoutineController extends DbObjectController
 {

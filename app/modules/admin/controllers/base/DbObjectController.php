@@ -1,15 +1,12 @@
 <?php
 
-namespace crudle\app\admin\controllers;
+namespace crudle\app\admin\controllers\base;
 
 use crudle\app\admin\controllers\action\Index;
 use crudle\app\admin\controllers\action\Select;
 use crudle\app\admin\forms\DatabaseForm;
 use crudle\app\main\controllers\base\BaseViewController;
-use crudle\app\main\controllers\base\FormInterface;
-use crudle\app\main\controllers\base\ListViewInterface;
 use crudle\app\main\enums\Type_View;
-use Yii;
 
 abstract class DbObjectController extends BaseViewController
 {
@@ -52,6 +49,11 @@ abstract class DbObjectController extends BaseViewController
     {
         return '';
     }
+
+    // public function listRouteParams(): array
+    // {
+    //     return [];
+    // }
 
     // ViewInterface
     public function getModel($id = null)
