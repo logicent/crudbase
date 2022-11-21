@@ -1,7 +1,6 @@
 <?php
 
-// $this->title = Yii::t('app', 'Table: ') . $formModel->tableName;
-$this->title = Yii::t('app', 'Database: ') . $formModel->schemaName;
+$this->title = Yii::t('app', 'Table: ') . Yii::$app->request->queryParams['TABLE_NAME'];
 echo $this->render('/_view/_breadcrumb');
 $this->params['breadcrumbs'][] = ['label' => $formModel->schemaName];
 ?>

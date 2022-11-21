@@ -2,6 +2,7 @@
 
 namespace crudle\app\admin\controllers;
 
+use crudle\app\admin\forms\ConnectionMySql;
 use crudle\app\main\controllers\base\BaseViewController;
 use crudle\app\main\enums\Type_View;
 use crudle\app\admin\models\auth\LoginForm;
@@ -60,7 +61,7 @@ class AdminController extends BaseViewController
 
     public function actionLogin()
     {
-        $model = new LoginForm();
+        $model = new ConnectionMySql(); // To-Do: add support for other db
 
         if ($model->load(Yii::$app->request->post()) && $model->validate())
             // connect to set/default database

@@ -18,3 +18,9 @@
 .grid-view {
     overflow-x: auto;
 }
+
+.grid-view > table.single.line > tbody td {
+    max-width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
