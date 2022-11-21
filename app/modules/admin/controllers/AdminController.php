@@ -5,7 +5,6 @@ namespace crudle\app\admin\controllers;
 use crudle\app\admin\forms\ConnectionMySql;
 use crudle\app\main\controllers\base\BaseViewController;
 use crudle\app\main\enums\Type_View;
-use crudle\app\admin\models\auth\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -89,7 +88,7 @@ class AdminController extends BaseViewController
     }
 
     public function actionLogout()
-    {exit;
+    {
         Yii::$app->session->destroy(); // clear all cached settings
         Yii::$app->app->db->close();
 

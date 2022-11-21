@@ -1,10 +1,16 @@
 <?php
 
 use yii\helpers\Html;
-// use yii\helpers\Url;
 use icms\FomanticUI\Elements;
 
 $this->title = $name;
+$username = Yii::$app->session->has('dbConfig') ? Yii::$app->session->get('dbConfig')['username'] : null;
+$host = Yii::$app->session->has('dbInfo') ? Yii::$app->session->get('dbInfo')['host'] : null;
+if (Yii::$app->session->has('dbConfig')) :
+    $dbUser = $username . '@' . $host;
+else :
+    $dbUser = null;
+endif
 ?>
 
 <div class="site-error">
@@ -20,7 +26,7 @@ $this->title = $name;
         </p>
         <div class="ui hidden divider"></div>
         <div>
-            Hi <?= Yii::$app->user->identity->person->firstname ?>,
+            Hi <?= $dbUser ?>,
         </div>
         <br>
         <!-- ToDo: allow user to customize this message in layout settings -->
@@ -33,6 +39,6 @@ $this->title = $name;
         <!-- TODO: Add the ability to send the error report to support mail or System Manager/Administrator -->
         <!-- Please send this error report to your System Manager.<br> -->
         <!-- ToDo: allow user to set this redirection route and whether it is automatic after mail is sent -->
-        <?= Html::a('Go Home', ['/app/db'], ['class' => 'compact ui small primary button']) ?>
+        <?= Html::a('Go Home', ['/app/server'], ['class' => 'compact ui small primary button']) ?>
     </div>
 </div>

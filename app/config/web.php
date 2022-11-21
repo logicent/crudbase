@@ -45,8 +45,7 @@ $config = [
         ],
         'user' => [
             'identityClass' => User::class,
-            'enableAutoLogin' => true,
-            // 'loginUrl' => 'app/login'
+            'loginUrl' => '/app/login'
         ],
         'errorHandler' => [
             'errorAction' => 'admin/admin/error',
