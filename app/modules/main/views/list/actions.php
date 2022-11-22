@@ -2,12 +2,17 @@
 
 $controller = $this->context;
 
-/* foreach($controller->viewActions() as $viewAction) :
-    echo $this->render('_action/' . $viewAction['actionId']);
+// use button group here
+foreach($controller->viewActions() as $viewAction) :
+    echo $this->renderFile($controller->viewPath . '/_action/' . $viewAction . '.php');
 endforeach;
-*/
-// if ($controller->showViewTypeSwitcher())
-//     echo $this->render('_actions/view_switcher');
+// use dropdown menu here
+// if($controller->batchActionsMenu()) :
+//     echo $this->renderFile($controller->viewPath . '/_action/' . $viewAction . '.php');
+// endif;
+
+if ($controller->showViewTypeSwitcher())
+    echo $this->render('_actions/view_switcher');
 
 $this->registerJs(<<<JS
     $('#delete_btn').on('click', function(e) {

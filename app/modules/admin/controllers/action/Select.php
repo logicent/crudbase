@@ -2,7 +2,7 @@
 
 namespace crudle\app\admin\controllers\action;
 
-use crudle\app\admin\controllers\base\BaseAction;
+use crudle\app\main\controllers\base\BaseAction;
 use Yii;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
