@@ -29,14 +29,14 @@ abstract class DbObjectController extends BaseViewController
         return $this->render('create');
     }
 
-    /**
-     * Renders the alter view for the controller
-     * @return string
-     */
-    public function actionAlter()
-    {
-        return $this->render('alter');
-    }
+    // /**
+    //  * Renders the alter view for the controller
+    //  * @return string
+    //  */
+    // public function actionAlter(): string
+    // {
+    //     return '';
+    // }
 
     // FormInterface
     public function formModelClass(): string
@@ -58,7 +58,7 @@ abstract class DbObjectController extends BaseViewController
     // ViewInterface
     public function getModel($id = null)
     {
-        return $this->formModel;
+        return $this->formModel ??= new $this->formModelClass();
     }
 
     public function setModel($model)

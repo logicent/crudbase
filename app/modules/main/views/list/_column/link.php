@@ -15,7 +15,7 @@ return [
             }
             $attribute = $column->attribute;
             $linkId = $model->listSettings->listIdAttribute;
-            $route = '/app' . '/' . $this->context->listRouteId();
+            $route = $this->context->listRouteId();
             $urlParams = array_merge(
                 Yii::$app->request->queryParams,
                 [$route, $linkId => $model->{$linkId}]

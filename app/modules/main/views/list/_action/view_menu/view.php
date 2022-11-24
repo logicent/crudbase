@@ -11,36 +11,31 @@ use icms\FomanticUI\modules\Modal;
     <?= Yii::t('app', 'Menu') ?>&ensp;<i class="down small chevron icon"></i>
     <div class="menu">
 <?php
-    if ($this->context->action->id == 'report-builder') :
-        echo 
-            Html::a(Yii::t('app', 'New') .'&nbsp;'. Inflector::titleize(Inflector::singularize($this->context->id)), ["create"], ['class' => 'item']) .
-            Html::a(Yii::t('app', 'Print'), ['print'], ['class' => 'item']) .
-            Html::a(Yii::t('app', 'Export'), ['export'], ['class' => 'item']) .
+    echo 
+        Html::a(Yii::t('app', 'New') .'&nbsp;'. Inflector::titleize(Inflector::singularize($this->context->id)), ["create"], ['class' => 'item']) .
+        Html::a(Yii::t('app', 'Print'), ['print'], ['class' => 'item']) .
+        Html::a(Yii::t('app', 'Export'), ['export'], ['class' => 'item']) .
 
-            Html::tag('div', '', ['class' => 'divider']) .
+        Html::tag('div', '', ['class' => 'divider']) .
 
-            Html::a(Yii::t('app', 'Save'), ['save'], [
-                'class' => 'item',
-                'data' => ['method' => 'post']
-            ]) .
-            Html::a(Yii::t('app', 'Save As'), ['save-as'], [
-                'class' => 'item',
-                'data' => ['method' => 'post']
-            ]);
-    endif;
-
-    if ( $this->context->action->id == 'index' ) :
-        echo
-            Html::a(Yii::t('app', 'Import data'), ['import-data'], ['class' => 'item']) .
-            Html::a(Yii::t('app', 'List view settings'), ['my-list-view-settings'],
-                    [
-                        'class' => 'item',
-                        'data' => [
-                            'method' => 'post'
-                        ]
+        Html::a(Yii::t('app', 'Save'), ['save'], [
+            'class' => 'item',
+            'data' => ['method' => 'post']
+        ]) .
+        Html::a(Yii::t('app', 'Save As'), ['save-as'], [
+            'class' => 'item',
+            'data' => ['method' => 'post']
+        ]);
+    echo
+        Html::a(Yii::t('app', 'Import data'), ['import-data'], ['class' => 'item']) .
+        Html::a(Yii::t('app', 'List view settings'), ['my-list-view-settings'],
+                [
+                    'class' => 'item',
+                    'data' => [
+                        'method' => 'post'
                     ]
-                );
-    endif ?>
+                ]
+            ) ?>
     </div><!-- ./menu -->
 </div>
 

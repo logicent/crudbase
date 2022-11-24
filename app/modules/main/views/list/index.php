@@ -23,10 +23,10 @@ if (file_exists($searchForm)) : ?>
     </div>
 <?php endif;
 
-$checkboxColumn = require '_checkboxColumn.php';
-$linkColumn = require '_linkColumn.php';
-$columns = require $context->viewPath . '/list_columns.php';
-$idColumn = require '_idColumn.php';
+$checkboxColumn = require '_column/checkbox.php';
+$linkColumn = require '_column/link.php';
+$listColumns = require $context->viewPath . '/list_columns.php';
+$idColumn = require '_column/id.php';
 
 echo
     $this->render('GridView', [
@@ -34,6 +34,6 @@ echo
         'searchModel'   => $searchModel,
         'checkboxColumn'=> $checkboxColumn,
         'linkColumn'    => $linkColumn,
-        'columns'       => $columns,
+        'viewColumns'   => $listColumns,
         'idColumn'      => $idColumn,
     ]);

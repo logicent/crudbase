@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Html;
+
 $controller = $this->context;
 
 // use button group here
@@ -7,12 +9,14 @@ foreach($controller->viewActions() as $viewAction) :
     echo $this->renderFile($controller->viewPath . '/_action/' . $viewAction . '.php');
 endforeach;
 // use dropdown menu here
-// if($controller->batchActionsMenu()) :
-//     echo $this->renderFile($controller->viewPath . '/_action/' . $viewAction . '.php');
-// endif;
+if($controller->showBatchActions()) :
+    echo $this->renderFile($controller->viewPath . '/_menu/batch.php');
+endif;
 
 if ($controller->showViewTypeSwitcher())
     echo $this->render('_actions/view_switcher');
+
+echo Html::a(Yii::t('app', $controller->mainAction()['label']), [$controller->mainAction()['route']], ['class' => 'compact small primary ui button']);
 
 $this->registerJs(<<<JS
     $('#delete_btn').on('click', function(e) {

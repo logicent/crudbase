@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Url;
 use icms\FomanticUI\widgets\ActiveForm;
+use yii\helpers\Inflector;
 
 $hintOptions = [
     'tag' => 'div',
@@ -9,11 +9,9 @@ $hintOptions = [
     'style' => 'font-size: 0.95em; padding-left: 0.25em'
 ];
 $hasFileInput = isset($model->uploadForm);
-// $isReadonly = $this->context->isReadonly();
 
 $form = ActiveForm::begin([
     'id' => $model->formName(),
-    // 'action' => $isReadonly ? false : Url::to([$this->context->action->id]),
     'enableClientValidation' => true,
     'fieldConfig' => ['hintOptions' => $hintOptions],
     'options' => [
@@ -22,22 +20,22 @@ $form = ActiveForm::begin([
         'enctype' => $hasFileInput ? 'multipart/form-data' : false,
     ],
 ]);
-    echo $this->render('@appMain/views/_form/_header', ['model' => $model]);
-    // insert page/route-specific form view input fields
-    if (method_exists($model, 'fieldInputs')) :
-        echo $this->render('_field_inputs', ['model' => $model, 'form' => $form]);
-    else:
-        echo $this->renderFile($this->context->viewPath . '/' . $this->context->action->id . '.php', [
-                'form' => $form,
-                'model' => $model
-            ]);
-    endif;
+    echo $this->render('_header', ['model' => $model]);
+    $viewName = Inflector::underscore(Inflector::id2camel($this->context->action->id));
+    echo $this->render($viewPath, [
+            'form' => $form,
+            'model' => $model
+        ]);
 ActiveForm::end();
 
-// insert the ajax script if applicable
-// $this->registerJs($this->render('@appMain/views/_form/_modal_submit.js'));
-
-// additional form view js scripts
 $this->registerJs(<<<JS
-//  form view javascript
+    $('.ui.dropdown').dropdown({
+        // action: 'hide',
+        // onChange: function(value, text, selectedItem) {
+        //     console.log(value, text. selectedItem)
+        // }
+        // clearable : true,
+        // values : listOptions, // get values from JS global var of listOptions
+        // placeholder : 'Choose',
+    });
 JS);

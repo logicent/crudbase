@@ -2,9 +2,9 @@
 
 use crudle\app\admin\models\Collation;
 
-$this->title = Yii::t('app', 'Create Database');
-// $this->params['breadcrumbs'][] = ['label' => $this->title];
+$this->title = Yii::t('app', 'Create database');
 ?>
+
 <div class="ui segment">
     <div class="ui two column grid">
         <div class="column">

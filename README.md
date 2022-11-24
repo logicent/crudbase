@@ -55,16 +55,20 @@ Crudbase is a database management tool for easy development and maintenance of r
 
 ### Roadmap
 _Now:_
+- [ ] Create Database
+<!-- - [ ] Rename Database -->
+- [ ] Alter Database
+- [ ] Drop Database
 - [ ] Create Table
+- [ ] Rename Table
+- [ ] Truncate Table
+- [ ] Drop Table
 - [ ] Create View
 - [ ] Drop View
-- [ ] Rename Table
-- [ ] Drop Table
-- [ ] Truncate Table
 - [ ] Add Column
 - [ ] Rename Column
-- [ ] Drop Column
 - [ ] Alter Column
+- [ ] Drop Column
 - [ ] Add Primary Key
 - [ ] Drop Primary Key
 - [ ] Add Foreign Key

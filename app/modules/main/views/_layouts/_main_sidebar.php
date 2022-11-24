@@ -28,7 +28,7 @@ endif;
                         $menuIndex = count($menuRoute) > 1 ? count($menuRoute) - 1 : 0;
                         echo Html::a(
                                 Elements::icon($sidebarMenu['icon']) . Yii::t('app', $sidebarMenu['label']),
-                                ["/app/{$sidebarMenu['route']}"],
+                                ["{$sidebarMenu['route']}"],
                                 ['class' => $moduleSegment == $menuRoute[$menuIndex] ? 'item active' : 'item'],
                         );
                 endforeach ?>

@@ -3,10 +3,10 @@
 namespace crudle\app\admin\controllers;
 
 use crudle\app\admin\controllers\base\DbObjectController;
-use crudle\app\admin\models\DbTable;
-use crudle\app\admin\models\search\DbTableSearch;
+use crudle\app\admin\models\Database;
+use crudle\app\admin\models\search\DatabaseSearch;
 use Yii;
-use yii\data\ActiveDataProvider;
+use yii\helpers\StringHelper;
 
 class DbController extends DbObjectController
 {
@@ -22,50 +22,46 @@ class DbController extends DbObjectController
 
     public function modelClass(): string
     {
-        return DbTable::class;
+        return Database::class;
     }
 
     public function searchModelClass(): string
     {
-        return DbTableSearch::class;
+        return DatabaseSearch::class;
     }
 
     public function actionIndex()
     {
         $searchModelClass = $this->searchModelClass();
+        $searchClassname = StringHelper::basename($searchModelClass);
         $searchModel = new $searchModelClass;
-        // $searchClassname = StringHelper::basename($searchModelClass);
 
         // check if global search is used to fetch result
-        // if (!empty(Yii::$app->request->get('GlobalSearch')))
-        // {
-        //     $globalSearchTerm = [
-        //         $searchClassname => [
-        //             $searchModel->listSettings->listNameAttribute => Yii::$app->request->get('GlobalSearch')['gs_term'],
-        //         ],
-        //     ];
-        //     $userFilters = $globalSearchTerm;
-        // }
-        // check if get is called via Ajax or HX-Request
-        $filterColumnName = 'SCHEMA_NAME';
-        $headers = Yii::$app->request->headers;
-        $isAjaxRequest = Yii::$app->request->isAjax || $headers->has('HX-Request');
-        if ($isAjaxRequest)
-            $userFilters = [$filterColumnName => Yii::$app->request->get('DatabaseForm')['schemaName']];
-        else // called via browser URL
+        if (!empty(Yii::$app->request->get('GlobalSearch')))
+        {
+            $globalSearchTerm = [
+                $searchClassname => [
+                    $searchModel->listSettings->listNameAttribute => Yii::$app->request->get('GlobalSearch')['gs_term'],
+                ],
+            ];
+            $userFilters = $globalSearchTerm;
+        }
+        else
             $userFilters = Yii::$app->request->queryParams;
 
-        if (!empty($userFilters)) // only fetch if filter params exist
-            $dataProvider = $searchModel->search($userFilters);
-        else {
-            $dataProvider = new ActiveDataProvider([
-                'query' => $this->modelClass()::find()->where(['TABLE_SCHEMA' => ''])
-            ]);
-        }
+        $filterColumnName = $searchModel->listSettings->listIdAttribute;
+        // if (!empty($userFilters))
+        // fetch the list of all (system + user) databases
+        $dataProvider = $searchModel->search($userFilters);
+        // else {
+        //     $dataProvider = new ActiveDataProvider([
+        //         'query' => $this->modelClass()::find()->where([$filterColumnName => ''])
+        //     ]);
+        // }
 
         $formModelClass = $this->formModelClass();
         $this->formModel = new $formModelClass;
-        $this->formModel->schemaName = isset($userFilters[$filterColumnName]) ? $userFilters[$filterColumnName] : null;
+        $this->formModel->schemaName = $userFilters[$filterColumnName] ?? null;
 
         $data = [
             'formModel' => $this->formModel,
@@ -73,23 +69,11 @@ class DbController extends DbObjectController
             'dataProvider' => $dataProvider,
         ];
         $view = 'index';
-        if ($isAjaxRequest) // renderAjax
-            return $this->render($view, $data);
+        if (Yii::$app->request->isAjax)
+            return $this->renderAjax($view, $data);
         else
             return $this->render($view, $data);
     }
-
-    // public function actionServer()
-    // {}
-
-    public function actionCollation()
-    {}
-
-    public function actionEngine()
-    {}
-
-    public function actionCharacterSet()
-    {}
 
     public function actionCreate()
     {
@@ -105,27 +89,83 @@ class DbController extends DbObjectController
             }
         }
 
-        return $this->render('/_form/index');
+        return $this->render('create');
     }
 
-    // Rename ?
-    public function actionAlter()
+    public function actionPrivileges()
+    {
+        return $this->render('privileges');
+    }
+
+    public function actionProcessList()
+    {
+        return $this->render('process_list');
+    }
+
+    public function actionVariables()
+    {
+        return $this->render('variables');
+    }
+
+    public function actionStatus()
+    {
+        return $this->render('status');
+    }
+
+    // public function actionServer()
+    // {}
+
+    public function actionCollation()
     {}
+
+    public function actionEngine()
+    {}
+
+    public function actionCharacterSet()
+    {}
+
+    public function actionAlter()
+    {
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+
+        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+            try {
+                Yii::$app->db->createCommand('ALTER DATABASE ' . $this->formModel->schemaName)->execute();
+                return $this->redirect(['index']);
+            } catch (\yii\db\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('alter');
+    }
 
     public function actionDrop()
     {}
 
-    // ViewInterface
-    public function mainAction()
+    public function actionDbSchema()
     {
+        return $this->render('db_schema');
+    }
+
+    // ViewInterface
+    public function mainAction(): array
+    {
+        return [
+            'route' => 'alter',
+            'label' => 'Alter database',
+        ];
     }
 
     public function viewActions(): array
     {
         return [
-            'alter_database',
-            'database_schema',
-            'privileges',
+            // 'database_schema',
+            // 'privileges',
+            'process_list',
+            'variables',
+            'status'
         ];
     }
 
@@ -148,7 +188,7 @@ class DbController extends DbObjectController
     // ListViewInterface
     public function listRouteId(): string
     {
-        return 'db-table';
+        return '/admin/db-table';
     }
 
     public function batchActionsMenu(): array

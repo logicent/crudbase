@@ -1,5 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
-echo Html::a(Yii::t('app', 'Structure'), ['explain'], ['class' => 'compact small basic primary ui button']);
+$isActive = str_contains(Url::current(), 'explain') ? 'primary' : null;
+echo Html::a(Yii::t('app', 'Structure'), ['explain'], ['class' => "compact small basic {$isActive} ui button"]);

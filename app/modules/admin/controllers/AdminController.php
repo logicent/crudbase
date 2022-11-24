@@ -8,6 +8,7 @@ use crudle\app\main\enums\Type_View;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 class AdminController extends BaseViewController
 {
@@ -74,10 +75,11 @@ class AdminController extends BaseViewController
                 ];
                 Yii::$app->session->set('dbInfo', $dbInfo);
                 if (!empty($model->database))
-                    $route = "db?SCHEMA_NAME={$model->database}";
+                    $route = "/admin/db?SCHEMA_NAME={$model->database}";
                 else
-                    $route = 'server';
-                return $this->redirect(["/app/$route"]);
+                    $route = '/admin/db';
+
+                return $this->redirect([$route]);
             }
 
         $model->password = ''; // clear the password
@@ -89,10 +91,10 @@ class AdminController extends BaseViewController
 
     public function actionLogout()
     {
+        Yii::$app->db->close();
         Yii::$app->session->destroy(); // clear all cached settings
-        Yii::$app->app->db->close();
 
-        return $this->redirect(['/app/login']);
+        return $this->redirect(['login']);
     }
 
     public function defaultActionViewType()

@@ -9,13 +9,31 @@ $menuItems = [
     [
         // 'icon' => 'grey download large',
         'route' => 'https://mysqltutorial.org',
-        'label' => 'MySQL Tutorials',
+        'label' => 'MySQL Tutorial',
         'openInNewTab' => true,
         'inactive' => false,
     ],
-    // https://www.sqltutorial.org/
-    // https://sqlfordevs.com/tips
-    // https://mode.com/sql-tutorial/
+    // [
+    //     // 'icon' => 'grey download large',
+    //     'route' => 'https://www.sqltutorial.org',
+    //     'label' => 'SQL Tutorial',
+    //     'openInNewTab' => true,
+    //     'inactive' => false,
+    // ],
+    [
+        // 'icon' => 'grey download large',
+        'route' => 'https://sqlfordevs.com/tips',
+        'label' => 'SQL Tips for Devs',
+        'openInNewTab' => true,
+        'inactive' => false,
+    ],
+    [
+        // 'icon' => 'grey download large',
+        'route' => 'https://mode.com/sql-tutorial',
+        'label' => 'Mode SQL Tutorial',
+        'openInNewTab' => true,
+        'inactive' => false,
+    ],
 ];
 ?>
 

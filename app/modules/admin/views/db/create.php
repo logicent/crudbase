@@ -1,5 +1,7 @@
 <?php
 
-$this->title = Yii::t('app', 'Create Table');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tables'), 'url' => ['/app/db-table']];
-?>
+$this->title = Yii::t('app', 'Create database');
+
+echo $this->render('/_form/index', [
+    'viewPath' => '/db/_form'
+]);

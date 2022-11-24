@@ -17,7 +17,7 @@ interface ViewInterface
     // public function defaultActionViewType();
 
     // primary action
-    public function mainAction();
+    public function mainAction(): array;
     // secondary action(s)
     public function viewActions(): array;
     // context action(s)

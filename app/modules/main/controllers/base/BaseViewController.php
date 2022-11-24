@@ -39,15 +39,15 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
             Url::remember(Yii::$app->request->getUrl(), 'go back');
             $headers = Yii::$app->request->headers;
             if ($headers->has('HX-Request'))
-                $this->redirect(['/app/login'], 302); // !! Experimental : Testing behavior
+                $this->redirect(['login'], 302); // !! Experimental : Testing behavior
             else
-                $this->redirect(['/app/login']);
+                $this->redirect(['login']);
             return false; // do not run the action
         }
 
-        if (!parent::beforeAction($action)) {
-            return false; // do not run the action
-        }
+        // if (!parent::beforeAction($action)) {
+        //     return false; // do not run the action
+        // }
         // add db component to the app instance
         Yii::$app->set('db', Yii::$app->session->get('dbConfig'));
 
@@ -166,8 +166,9 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
         }
     }
 
-    public function mainAction()
+    public function mainAction(): array
     {
+        return [];
     }
 
     public function viewActions(): array

@@ -1,13 +1,11 @@
 <?php
 
-$this->title = Yii::t('app', 'Table: ') . Yii::$app->request->queryParams['TABLE_NAME'];
+$this->title = Yii::t('app', 'Database: ') . $formModel->schemaName;
 echo $this->render('/_view/_breadcrumb');
 $this->params['breadcrumbs'][] = ['label' => $formModel->schemaName];
 ?>
 
-<?= $this->render('/_list/index', [
+<?= $this->render('@appMain/views/list/index', [
         'searchModel' => $searchModel,
         'dataProvider' => $dataProvider,
-        'formModel' => $formModel,
-        'columns' => $columns,
 ]);

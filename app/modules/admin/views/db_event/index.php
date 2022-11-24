@@ -1,5 +1,5 @@
 <?php
 
 $this->title = Yii::t('app', 'Event');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Event'), 'url' => ['/app/db-event']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Event'), 'url' => ['db-event']];
 ?>

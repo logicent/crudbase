@@ -12,8 +12,8 @@ if (file_exists($searchForm)) : ?>
     </div>
 <?php endif;
 
-$checkboxColumn = require Yii::getAlias('@appMain/views/list/_checkboxColumn.php');
-$actionColumn = require '_actionColumn.php';
+$checkboxColumn = require Yii::getAlias('@appMain/views/list/_column/checkbox.php');
+$actionColumn = require '_action/edit.php';
 
 echo
     $this->render('GridView', [

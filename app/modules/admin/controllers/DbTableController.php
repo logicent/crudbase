@@ -16,7 +16,7 @@ class DbTableController extends DbObjectController
     {
         return [
             // 'index' => Index::class,
-            'select' => Select::class,
+            // 'select' => Select::class,
             // 'create' => Create::class,
             // 'alter' => Alter::class,
             // 'drop' => Drop::class,
@@ -38,6 +38,55 @@ class DbTableController extends DbObjectController
     }
 
     public function actionIndex()
+    {
+        $searchModelClass = $this->searchModelClass();
+        $searchModel = new $searchModelClass;
+        // $searchClassname = StringHelper::basename($searchModelClass);
+
+        // check if global search is used to fetch result
+        // if (!empty(Yii::$app->request->get('GlobalSearch')))
+        // {
+        //     $globalSearchTerm = [
+        //         $searchClassname => [
+        //             $searchModel->listSettings->listNameAttribute => Yii::$app->request->get('GlobalSearch')['gs_term'],
+        //         ],
+        //     ];
+        //     $userFilters = $globalSearchTerm;
+        // }
+        // check if get is called via Ajax or HX-Request
+        $filterColumnName = 'SCHEMA_NAME';
+        $headers = Yii::$app->request->headers;
+        $isAjaxRequest = Yii::$app->request->isAjax || $headers->has('HX-Request');
+        if ($isAjaxRequest)
+            $userFilters = [$filterColumnName => Yii::$app->request->get('DatabaseForm')['schemaName']];
+        else // called via browser URL
+            $userFilters = Yii::$app->request->queryParams;
+
+        if (!empty($userFilters)) // only fetch if filter params exist
+            $dataProvider = $searchModel->search($userFilters);
+        else {
+            $dataProvider = new ActiveDataProvider([
+                'query' => $this->modelClass()::find()->where(['TABLE_SCHEMA' => ''])
+            ]);
+        }
+
+        $formModelClass = $this->formModelClass();
+        $this->formModel = new $formModelClass;
+        $this->formModel->schemaName = isset($userFilters[$filterColumnName]) ? $userFilters[$filterColumnName] : null;
+
+        $data = [
+            'formModel' => $this->formModel,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ];
+        $view = 'index';
+        if ($isAjaxRequest) // renderAjax
+            return $this->render($view, $data);
+        else
+            return $this->render($view, $data);
+    }
+
+    public function actionSelect()
     {
         $tableSchema = Yii::$app->request->queryParams['SCHEMA_NAME'];
         $tableName = Yii::$app->request->queryParams['TABLE_NAME'];
@@ -64,7 +113,7 @@ class DbTableController extends DbObjectController
         // if ($isAjaxRequest) // renderAjax
         //     return $this->render('/_list/index', $data);
         // else
-            return $this->render('index', $data);
+            return $this->render('select', $data);
     }
 
     private function _getTableColumns($tableSchema)
@@ -74,17 +123,37 @@ class DbTableController extends DbObjectController
         return array_keys($schema->columns);
     }
 
-    // ViewInterface
-    public function mainAction()
+    public function actionCreate()
     {
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+
+        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+            try {
+                Yii::$app->db->createCommand('CREATE TABLE ' . $this->formModel->schemaName)->execute();
+                return $this->redirect(['index']);
+            } catch (\yii\db\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('@appMain/views/crud/form');
+    }
+
+    // ViewInterface
+    public function mainAction(): array
+    {
+        return [
+            'label' => 'Alter table',
+            'route' => 'alter'
+        ];
     }
 
     public function viewActions(): array
     {
         return [
-            'select_data',
+            'select',
             'show_structure',
-            'alter_table',
             'new_item',
         ];
     }
@@ -108,7 +177,7 @@ class DbTableController extends DbObjectController
     // ListViewInterface
     public function listRouteId(): string
     {
-        return 'db-table/select'; // or explain
+        return 'select'; // or explain
     }
 
     public function batchActionsMenu(): array

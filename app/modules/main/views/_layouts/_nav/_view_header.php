@@ -12,13 +12,13 @@ $menuItems = [];
 
 <header class="page-container">
     <nav class="page-head ui attached menu text">
-        <div class="ui grid container">
-            <div class="ten wide column item">
+        <div class="ui two column grid container">
+            <div class="column item">
                 <div class="page-title ui floated header">
                     <?= Html::encode($this->title) ?>
                 </div>
             </div>
-            <div class="six wide column right aligned">
+            <div class="column right aligned">
                 <div class="page-actions"><!-- ui spaced buttons -->
             <?php
                 // create/update record or settings form view
@@ -27,7 +27,7 @@ $menuItems = [];
                 endif;
                 // other multiple records view list/tree etc.
                 if ($controller->mapActionToViewType() == Type_View::List) :
-                    echo $this->render('@appMain/views/list/actions');
+                    echo $this->render('@appMain/views/list/action');
                 endif ?>
                 </div>
             </div>

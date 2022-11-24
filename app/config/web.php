@@ -19,7 +19,7 @@ $config = [
     'bootstrap' => ['log'],
 
     'timeZone' => 'Africa/Nairobi',
-    'defaultRoute' => 'main/app/index',
+    'defaultRoute' => '/admin/admin/index',
 
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -45,10 +45,10 @@ $config = [
         ],
         'user' => [
             'identityClass' => User::class,
-            'loginUrl' => '/app/login'
+            // 'loginUrl' => '/admin/admin/login'
         ],
         'errorHandler' => [
-            'errorAction' => 'admin/admin/error',
+            'errorAction' => '/admin/admin/error',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

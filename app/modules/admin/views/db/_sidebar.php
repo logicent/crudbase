@@ -41,7 +41,7 @@ $form = ActiveForm::begin([
     $tables = DbTable::find()->where(['TABLE_SCHEMA' => $model->schemaName])->asArray()->all();
     foreach ($tables as $index => $table) :
         $items[] = [
-            'url' => ['/app/db-table', 'SCHEMA_NAME' => $model->schemaName, 'TABLE_NAME' => $table['TABLE_NAME']],
+            'url' => ['db-table', 'SCHEMA_NAME' => $model->schemaName, 'TABLE_NAME' => $table['TABLE_NAME']],
             'label' => $table['TABLE_NAME']
         ];
     endforeach;

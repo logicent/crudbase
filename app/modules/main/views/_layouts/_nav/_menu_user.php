@@ -16,7 +16,7 @@ $host = Yii::$app->session->has('dbInfo') ? Yii::$app->session->get('dbInfo')['h
     <?= Elements::icon('down small chevron') ?>
     <div class="menu nav-menu">
         <?= Html::a(Yii::t('app', 'Log out'),
-                    ['/app/logout'], [
+                    ['/admin/admin/logout'], [
                         'class' => 'item',
                         'data' => ['method' => 'post']
                     ]) ?>

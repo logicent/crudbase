@@ -56,7 +56,7 @@ $showListCaptions = $searchModel->getLayoutSettings('showHelpInfo');
         'columns' => ArrayHelper::merge(
             $checkboxColumn,
             $linkColumn,
-            $columns,
+            $viewColumns,
         )
     ]) ?>
 <?php Pjax::end() ?>
