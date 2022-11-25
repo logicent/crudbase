@@ -94,21 +94,67 @@ class DbController extends DbObjectController
 
     public function actionPrivileges()
     {
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+
+        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+            try {
+                // Yii::$app->db->createCommand('CREATE USER ' . $this->formModel->schemaName)->execute();
+                return $this->redirect(['index']);
+            } catch (\yii\db\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
         return $this->render('privileges');
     }
 
     public function actionProcessList()
     {
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+
+        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+            try {
+                // Kill selected process(es)
+                return $this->redirect(['index']);
+            } catch (\yii\db\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
         return $this->render('process_list');
     }
 
     public function actionVariables()
     {
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+
+        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+            // try {
+            //     return $this->redirect(['index']);
+            // } catch (\yii\db\Exception $e) {
+            //     Yii::$app->session->setFlash('error', $e->getMessage());
+            // }
+        }
+
         return $this->render('variables');
     }
 
     public function actionStatus()
     {
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+
+        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+            // try {
+            //     return $this->redirect(['index']);
+            // } catch (\yii\db\Exception $e) {
+            //     Yii::$app->session->setFlash('error', $e->getMessage());
+            // }
+        }
+
         return $this->render('status');
     }
 
@@ -153,19 +199,22 @@ class DbController extends DbObjectController
     public function mainAction(): array
     {
         return [
-            'route' => 'alter',
-            'label' => 'Alter database',
+            'index' => [
+                'route' => 'create',
+                'label' => 'Create database',
+            ],
         ];
     }
 
     public function viewActions(): array
     {
         return [
-            // 'database_schema',
-            // 'privileges',
-            'process_list',
-            'variables',
-            'status'
+            'index' => [
+                'privileges',
+                'process_list',
+                'variables',
+                'status'
+            ]
         ];
     }
 
@@ -184,6 +233,11 @@ class DbController extends DbObjectController
     {
         return [];
     }
+
+    // public function showViewSidebar(): bool
+    // {
+    //     return $this->action->id == 'index';
+    // }
 
     // ListViewInterface
     public function listRouteId(): string

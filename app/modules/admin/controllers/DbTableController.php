@@ -147,17 +147,29 @@ class DbTableController extends DbObjectController
     public function mainAction(): array
     {
         return [
-            'label' => 'Alter table',
-            'route' => 'alter'
+            'index' => [
+                'route' => 'db/alter',
+                'label' => 'Alter database',
+            ],
+            'select' => [
+                'label' => 'Alter table',
+                'route' => 'alter'
+            ]
         ];
     }
 
     public function viewActions(): array
     {
         return [
-            'select',
-            'show_structure',
-            'new_item',
+            'index' => [
+                'database_schema',
+                'privileges',
+            ],
+            'select' => [
+                'select',
+                'show_structure',
+                'new_item',
+            ]
         ];
     }
 
