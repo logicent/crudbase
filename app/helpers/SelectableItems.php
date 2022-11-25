@@ -96,7 +96,7 @@ class SelectableItems
 
     private static function _emptyArrayItem()
     {
-        return ['' => ' '];
+        return [' ' => ' '];
     }
 
     private static function _addSelectedFieldValue( &$listItems, $formModel, $keyAttribute )

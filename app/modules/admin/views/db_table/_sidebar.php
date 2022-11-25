@@ -24,6 +24,7 @@ $form = ActiveForm::begin([
             'modelClass' => Database::class,
             'keyAttribute' => 'SCHEMA_NAME',
             'valueAttribute' => 'SCHEMA_NAME',
+            'addEmptyFirstItem' => true,
             'filters' => []
         ],
         'options' => [
@@ -31,7 +32,7 @@ $form = ActiveForm::begin([
                 console.log($(this).val());
             JS,
             'data' => [
-                'hx-get' => Url::to(['db/index', 'SCHEMA_NAME' => '']),
+                'hx-get' => Url::to(['db-table/index', 'SCHEMA_NAME' => $model->schemaName]),
                 'hx-target' => 'body > div.main', // #content
                 'hx-push-url' => 'true',
                 'hx-swap' => 'outerHTML'
@@ -41,7 +42,7 @@ $form = ActiveForm::begin([
     $tables = DbTable::find()->where(['TABLE_SCHEMA' => $model->schemaName])->asArray()->all();
     foreach ($tables as $index => $table) :
         $items[] = [
-            'url' => ['/admin/db-table/select', 'SCHEMA_NAME' => $model->schemaName, 'TABLE_NAME' => $table['TABLE_NAME']],
+            'url' => ['db-table/select', 'SCHEMA_NAME' => $model->schemaName, 'TABLE_NAME' => $table['TABLE_NAME']],
             'label' => $table['TABLE_NAME']
         ];
     endforeach;

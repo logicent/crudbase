@@ -39,6 +39,9 @@ class DbTableController extends DbObjectController
 
     public function actionIndex()
     {
+        // if (empty(Yii::$app->request->get('DatabaseForm')['schemaName']))
+        //     return $this->redirect(['db/index']);
+
         $searchModelClass = $this->searchModelClass();
         $searchModel = new $searchModelClass;
         // $searchClassname = StringHelper::basename($searchModelClass);

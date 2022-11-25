@@ -1,8 +1,6 @@
 <?php
 
 use crudle\app\admin\models\Database;
-use crudle\app\admin\models\DbTable;
-use icms\FomanticUI\collections\Menu;
 use icms\FomanticUI\widgets\ActiveForm;
 use yii\helpers\Url;
 
@@ -24,6 +22,7 @@ $form = ActiveForm::begin([
             'modelClass' => Database::class,
             'keyAttribute' => 'SCHEMA_NAME',
             'valueAttribute' => 'SCHEMA_NAME',
+            'addEmptyFirstItem' => true,
             'filters' => []
         ],
         'options' => [
@@ -37,19 +36,5 @@ $form = ActiveForm::begin([
                 'hx-swap' => 'outerHTML'
             ]
         ]
-    ]);
-    $tables = DbTable::find()->where(['TABLE_SCHEMA' => $model->schemaName])->asArray()->all();
-    foreach ($tables as $index => $table) :
-        $items[] = [
-            'url' => ['db-table', 'SCHEMA_NAME' => $model->schemaName, 'TABLE_NAME' => $table['TABLE_NAME']],
-            'label' => $table['TABLE_NAME']
-        ];
-    endforeach;
-    echo Menu::widget([
-        'id' => 'sidebar_menu',
-        'items' => $items ?? [],
-        'options' => [
-            'class' => 'secondary fluid vertical pointing',
-        ],
     ]);
 ActiveForm::end();
