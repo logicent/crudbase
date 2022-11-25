@@ -3,9 +3,12 @@
 namespace crudle\app\admin\controllers;
 
 use crudle\app\admin\controllers\base\DbObjectController;
+use crudle\app\admin\forms\PrivilegeForm;
 use crudle\app\admin\models\Database;
 use crudle\app\admin\models\search\DatabaseSearch;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\helpers\StringHelper;
 
 class DbController extends DbObjectController
@@ -94,8 +97,31 @@ class DbController extends DbObjectController
 
     public function actionPrivileges()
     {
-        $modelClass = $this->formModelClass(); 
-        $this->formModel = new $modelClass;
+        $tableSchema = 'mysql'; // to be determined based on driver/connection
+        $tableName = 'user'; // to be determined based on driver/connection
+        $baseTable = $tableSchema .'.'. $tableName;
+        $query = (new Query())->from($baseTable);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            // 'sort' => [
+            //     'defaultOrder' => [
+            //         'User' => SORT_ASC
+            //     ]
+            // ]
+        ]);
+
+        $formModelClass = $this->formModelClass();
+        $this->formModel = new $formModelClass;
+        $this->formModel->schemaName = $tableSchema;
+
+        $searchModelClass = $this->searchModelClass();
+        $data = [
+            'columns' => ['User', 'Host'],
+            'formModel' => $this->formModel,
+            'searchModel' => new $searchModelClass(),
+            'dataProvider' => $dataProvider,
+        ];
 
         if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
             try {
@@ -106,56 +132,119 @@ class DbController extends DbObjectController
             }
         }
 
-        return $this->render('privileges');
+        return $this->render('privileges', $data);
     }
 
-    public function actionProcessList()
+    public function actionCreateUser()
     {
-        $modelClass = $this->formModelClass(); 
-        $this->formModel = new $modelClass;
+        $formModelClass = $this->formModelClass();
+        $this->formModel = new $formModelClass;
 
-        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+        $model = new PrivilegeForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             try {
-                // Kill selected process(es)
+                // Yii::$app->db->createCommand('CREATE USER ' . $model->schemaName)->execute();
                 return $this->redirect(['index']);
             } catch (\yii\db\Exception $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
 
-        return $this->render('process_list');
+        return $this->render('create_user', ['model' => $model]);
+    }
+
+    public function actionProcessList()
+    {
+        $tableSchema = 'information_schema'; // to be determined based on driver/connection
+        $tableName = 'processlist'; // to be determined based on driver/connection
+        $baseTable = $tableSchema .'.'. $tableName;
+        $query = (new Query())->from($baseTable);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            // 'sort' => [
+            //     'defaultOrder' => [
+            //         'User' => SORT_ASC
+            //     ]
+            // ]
+        ]);
+
+        $formModelClass = $this->formModelClass();
+        $this->formModel = new $formModelClass;
+        $this->formModel->schemaName = $tableSchema;
+
+        $searchModelClass = $this->searchModelClass();
+        $data = [
+            'columns' => ['ID', 'USER', 'HOST', 'DB', 'COMMAND', 'TIME', 'STATE', 'INFO'],
+            'formModel' => $this->formModel,
+            'searchModel' => new $searchModelClass(),
+            'dataProvider' => $dataProvider,
+        ];
+
+        return $this->render('process_list', $data);
     }
 
     public function actionVariables()
     {
-        $modelClass = $this->formModelClass(); 
-        $this->formModel = new $modelClass;
+        $tableSchema = 'performance_schema'; // to be determined based on driver/connection
+        $tableName = 'session_variables'; // to be determined based on driver/connection
+        $baseTable = $tableSchema .'.'. $tableName;
+        $query = (new Query())->from($baseTable);
 
-        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
-            // try {
-            //     return $this->redirect(['index']);
-            // } catch (\yii\db\Exception $e) {
-            //     Yii::$app->session->setFlash('error', $e->getMessage());
-            // }
-        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            // 'sort' => [
+            //     'defaultOrder' => [
+            //         'User' => SORT_ASC
+            //     ]
+            // ]
+        ]);
 
-        return $this->render('variables');
+        $formModelClass = $this->formModelClass();
+        $this->formModel = new $formModelClass;
+        $this->formModel->schemaName = $tableSchema;
+
+        $searchModelClass = $this->searchModelClass();
+        $data = [
+            'columns' => ['VARIABLE_NAME', 'VARIABLE_VALUE'],
+            'formModel' => $this->formModel,
+            'searchModel' => new $searchModelClass(),
+            'dataProvider' => $dataProvider,
+        ];
+
+        return $this->render('variables', $data);
     }
 
     public function actionStatus()
     {
-        $modelClass = $this->formModelClass(); 
-        $this->formModel = new $modelClass;
+        $tableSchema = 'performance_schema'; // to be determined based on driver/connection
+        $tableName = 'session_status'; // to be determined based on driver/connection
+        $baseTable = $tableSchema .'.'. $tableName;
+        $query = (new Query())->from($baseTable);
 
-        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
-            // try {
-            //     return $this->redirect(['index']);
-            // } catch (\yii\db\Exception $e) {
-            //     Yii::$app->session->setFlash('error', $e->getMessage());
-            // }
-        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            // 'sort' => [
+            //     'defaultOrder' => [
+            //         'User' => SORT_ASC
+            //     ]
+            // ]
+        ]);
 
-        return $this->render('status');
+        $formModelClass = $this->formModelClass();
+        $this->formModel = new $formModelClass;
+        $this->formModel->schemaName = $tableSchema;
+
+        $searchModelClass = $this->searchModelClass();
+        $data = [
+            'columns' => ['VARIABLE_NAME', 'VARIABLE_VALUE'],
+            'formModel' => $this->formModel,
+            'searchModel' => new $searchModelClass(),
+            'dataProvider' => $dataProvider,
+        ];
+
+        return $this->render('status', $data);
     }
 
     // public function actionServer()
@@ -202,6 +291,18 @@ class DbController extends DbObjectController
             'index' => [
                 'route' => 'create',
                 'label' => 'Create database',
+            ],
+            'privileges' => [
+                'route' => 'create-user',
+                'label' => 'Create user',
+                'options' => [
+                    'data' => [
+                        'hx-get' => \yii\helpers\Url::to(['create-user']),
+                        'hx-target' => 'body > div.main',
+                        'hx-push-url' => 'true',
+                        'hx-swap' => 'outerHTML'
+                    ]
+                ]
             ],
         ];
     }

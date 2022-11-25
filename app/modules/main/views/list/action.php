@@ -21,7 +21,12 @@ if ($controller->showViewTypeSwitcher())
 
 if (isset($controller->mainAction()[$controller->action->id])) :
     $mainAction = $controller->mainAction()[$controller->action->id];
-    echo Html::a(Yii::t('app', $mainAction['label']), [$mainAction['route']], ['class' => 'compact small primary ui button']);
+    $options = ['class' => 'compact small primary ui button'];
+    echo Html::a(
+        Yii::t('app', $mainAction['label']),
+        [$mainAction['route']],
+        isset($mainAction['options']) ? array_merge($options, $mainAction['options']) : $options
+    );
 endif;
 
 $this->registerJs(<<<JS

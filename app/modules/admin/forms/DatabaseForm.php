@@ -13,8 +13,7 @@ class DatabaseForm extends Model
     public function rules()
     {
         return [
-            ['schemaName', 'required', 'on' => 'index'],
-            ['schemaName', 'required'],
+            ['schemaName', 'required'], // 'on' => 'create'],
         ];
     }
 }
