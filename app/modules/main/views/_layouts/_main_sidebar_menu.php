@@ -13,17 +13,17 @@ return [
         // ],
         [
                 'icon' => 'grey code large',
-                'route' => 'db-cmd',
+                'route' => 'db-cmd/index',
                 'label' => 'SQL',
         ],
         [
                 'icon' => 'grey upload large',
-                'route' => 'import',
+                'route' => 'import/index',
                 'label' => 'Import',
         ],
         [
                 'icon' => 'grey download large',
-                'route' => 'export',
+                'route' => 'export/index',
                 'label' => 'Export',
         ],
 ];

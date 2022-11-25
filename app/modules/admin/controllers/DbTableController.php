@@ -140,7 +140,28 @@ class DbTableController extends DbObjectController
             }
         }
 
-        return $this->render('@appMain/views/crud/form');
+        return $this->render('@appAdmin/views/_form/index');
+    }
+
+    public function actionNewItem()
+    {
+        // instance a dynamic form model
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+
+        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+            try {
+                // Yii::$app->db->createCommand('CREATE TABLE ' . $this->formModel->schemaName)->execute();
+                return $this->redirect(['index']);
+            } catch (\yii\db\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('@appAdmin/views/_form/index', [
+            'model' => $this->formModel,
+            'viewPath' => '/db_table/new_item'
+        ]);
     }
 
     // ViewInterface
