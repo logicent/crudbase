@@ -4,6 +4,7 @@ namespace crudle\app\admin\controllers;
 
 use crudle\app\admin\controllers\action\Select;
 use crudle\app\admin\controllers\base\DbObjectController;
+use crudle\app\admin\forms\TableRecord;
 use crudle\app\admin\models\DbTable;
 use crudle\app\admin\models\search\DbTableSearch;
 use Yii;
@@ -143,24 +144,30 @@ class DbTableController extends DbObjectController
         return $this->render('@appAdmin/views/_form/index');
     }
 
+    public function actionStructure()
+    {
+
+    }
+
     public function actionNewItem()
     {
-        // instance a dynamic form model
         $modelClass = $this->formModelClass(); 
         $this->formModel = new $modelClass;
 
-        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
-            try {
-                // Yii::$app->db->createCommand('CREATE TABLE ' . $this->formModel->schemaName)->execute();
-                return $this->redirect(['index']);
-            } catch (\yii\db\Exception $e) {
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
+        $model = new TableRecord();
+        $tableSchema = Yii::$app->request->get('SCHEMA_NAME');
+        $tableName = Yii::$app->request->get('TABLE_NAME');
+        $baseTable = $tableSchema .'.'. $tableName;
+        $table = Yii::$app->db->schema->getTableSchema($baseTable);
+        $model->schemaName = $table->schemaName;
+        $model->name = $table->name;
+        $model->fullName = $table->fullName;
+        $model->primaryKey = $table->primaryKey;
+        $model->columns = $table->columns;
+        $model->foreignKeys = $table->foreignKeys;
 
-        return $this->render('@appAdmin/views/_form/index', [
-            'model' => $this->formModel,
-            'viewPath' => '/db_table/new_item'
+        return $this->render('new_item', [
+            'model' => $model,
         ]);
     }
 
