@@ -13,6 +13,7 @@ if (file_exists($searchForm)) : ?>
 <?php endif;
 
 $checkboxColumn = require Yii::getAlias('@appMain/views/list/_column/checkbox.php');
+$this->params['tablePK'] = $tablePK;
 $actionColumn = require '_action/edit.php';
 
 echo

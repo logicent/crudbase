@@ -8,5 +8,5 @@ class TableRecordField extends Model
 {
     public $name;
     public $value;
-    public $type;
+    // public $type;
 }

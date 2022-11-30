@@ -33,14 +33,4 @@ $this->registerJs(<<<JS
                 $('#save_btn').hide();
             }
     });
-
-    $('#save_btn').on('click', function(e) {
-        $('.ui.form button[type="submit"]').click();
-    });
-
-    $('#submit_btn').on('click', function(e) {
-        url = $(this).data('url');
-        confirmAction(url);
-        return false; // this prevents the browser dialog from being loaded.
-    });
 JS);

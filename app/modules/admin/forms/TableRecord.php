@@ -2,23 +2,19 @@
 
 namespace crudle\app\admin\forms;
 
-use yii\base\Model;
+use yii\base\DynamicModel;
 
-class TableRecord extends Model
+class TableRecord extends DynamicModel
 {
-    public $schemaName;
-    public $name;
-    public $fullName;
-    public $primaryKey;
-    public $sequenceName;
-    public $foreignKeys;
-    public $columns;
-    // public $indexes;
-
-    public function rules()
+    public function defineAttributes($attributeNames)
     {
-        return [
-            [['schemaName', 'name', 'fullName', 'primaryKey', 'sequenceName', 'foreignKeys', 'columns'], 'safe']
-        ];
+        foreach ($attributeNames as $attributeName)
+            $this->defineAttribute($attributeName);
+    }
+
+    public function setValuesByAttribute($row)
+    {
+        foreach ($row as $column => $value)
+            $this->{$column} = $value;
     }
 }

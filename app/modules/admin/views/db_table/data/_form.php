@@ -1,11 +1,9 @@
 <?php
 
-use yii\helpers\Url;
 use icms\FomanticUI\widgets\ActiveForm;
 
-$this->title = Yii::t('app', 'New item: ') . $model->name;
 echo $this->render('/_view/_breadcrumb');
-$this->params['breadcrumbs'][] = ['label' => $model->schemaName];
+$this->params['breadcrumbs'][] = ['label' => $tableDef->schemaName];
 
 $hintOptions = [
     'tag' => 'div',
@@ -24,9 +22,13 @@ $form = ActiveForm::begin([
         'enctype' => $hasFileInput ? 'multipart/form-data' : false,
     ],
 ]);
-    // echo $this->render('@appMain/views/_form/_header', ['model' => $model]);
-    // insert page/route-specific form view input fields
-    echo $this->render('_field_inputs', ['model' => $model, 'form' => $form]);
+    echo $this->render('@appMain/views/_form/_header', ['model' => $model]);
+    // generate column input fields for specific db object (table or view)
+    echo $this->render('_field_inputs', [
+        'tableDef' => $tableDef,
+        'model' => $model,
+        'form' => $form
+    ]);
 ActiveForm::end();
 
 // additional form view js scripts

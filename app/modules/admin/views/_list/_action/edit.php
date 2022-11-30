@@ -8,10 +8,18 @@ return [
         // 'header' => 'Edit',
         'format' => 'raw',
         'value' => function ($model) {
-            return Html::a(
-                // Yii::t('app', 'edit'),
+            $tableSchema = Yii::$app->request->getQueryParam('SCHEMA_NAME');
+            $tableName = Yii::$app->request->getQueryParam('TABLE_NAME');
+            $tableId = $model[$this->params['tablePK'][0]];
+
+            return Html::a(// Yii::t('app', 'edit'),
                 Elements::icon('edit outline'),
-                false, [
+                ['edit',
+                    'SCHEMA_NAME' => $tableSchema,
+                    'TABLE_NAME' => $tableName,
+                    'TABLE_ID' => $tableId,
+                ],
+                [
                     'class' => 'text-muted',
                     'style' => 'font-weight: normal;'
                 ]);

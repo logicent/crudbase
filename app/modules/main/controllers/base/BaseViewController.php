@@ -162,7 +162,7 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
             case 'update':
                 return Type_View::Form;
             default: // index or other
-                return $this->defaultActionViewType();
+                // return $this->defaultActionViewType();
         }
     }
 

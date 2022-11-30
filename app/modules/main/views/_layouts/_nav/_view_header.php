@@ -22,7 +22,7 @@ $menuItems = [];
                 <div class="page-actions"><!-- ui spaced buttons -->
             <?php
                 // create/update record or settings form view
-                if ($this->context->mapActionToViewType() == Type_View::Form) :
+                if ($controller->mapActionToViewType() == Type_View::Form) :
                     echo $this->render('@appMain/views/_form/action');
                 endif;
                 // other multiple records view list/tree etc.

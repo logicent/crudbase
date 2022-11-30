@@ -14,3 +14,11 @@ echo Elements::button(Yii::t('app', 'Submit'), [
         'url' => Url::to(['submit', 'id' => $model->id])
     ]
 ]);
+
+$this->registerJs(<<<JS
+    $('#submit_btn').on('click', function(e) {
+        url = $(this).data('url');
+        confirmAction(url);
+        return false; // this prevents the browser dialog from being loaded.
+    });
+JS);

@@ -6,8 +6,9 @@ $this->params['breadcrumbs'][] = ['label' => $formModel->schemaName];
 ?>
 
 <?= $this->render('/_list/index', [
-        'searchModel' => $searchModel,
-        'dataProvider' => $dataProvider,
-        'formModel' => $formModel,
-        'columns' => $columns,
+        'searchModel'   => $searchModel,
+        'dataProvider'  => $dataProvider,
+        'formModel'     => $formModel,
+        'columns'       => $columns,
+        'tablePK'       => $tablePK,
 ]);

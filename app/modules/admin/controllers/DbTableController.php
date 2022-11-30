@@ -7,9 +7,12 @@ use crudle\app\admin\controllers\base\DbObjectController;
 use crudle\app\admin\forms\TableRecord;
 use crudle\app\admin\models\DbTable;
 use crudle\app\admin\models\search\DbTableSearch;
+use crudle\app\main\enums\Type_View;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 class DbTableController extends DbObjectController
 {
@@ -92,9 +95,9 @@ class DbTableController extends DbObjectController
 
     public function actionSelect()
     {
-        $tableSchema = Yii::$app->request->queryParams['SCHEMA_NAME'];
-        $tableName = Yii::$app->request->queryParams['TABLE_NAME'];
-        $baseTable = $tableSchema .'.'. $tableName;
+        $schemaName = Yii::$app->request->getQueryParam('SCHEMA_NAME');
+        $tableName = Yii::$app->request->getQueryParam('TABLE_NAME');
+        $baseTable = $schemaName .'.'. $tableName;
         $query = (new Query())->from($baseTable);
 
         $dataProvider = new ActiveDataProvider([
@@ -103,28 +106,18 @@ class DbTableController extends DbObjectController
 
         $formModelClass = $this->formModelClass();
         $this->formModel = new $formModelClass;
-        $this->formModel->schemaName = $tableSchema;
+        $this->formModel->schemaName = $schemaName;
+        $tableSchema = Yii::$app->db->schema->getTableSchema($baseTable);
 
         $searchModelClass = $this->searchModelClass();
         $data = [
-            'columns' => $this->_getTableColumns($baseTable),
+            'tablePK' => $tableSchema->primaryKey,
+            'columns' => array_keys($tableSchema->columns),
             'formModel' => $this->formModel,
             'searchModel' => new $searchModelClass(),
             'dataProvider' => $dataProvider,
         ];
-        // $headers = Yii::$app->request->headers;
-        // $isAjaxRequest = Yii::$app->request->isAjax || $headers->has('HX-Request');
-        // if ($isAjaxRequest) // renderAjax
-        //     return $this->render('/_list/index', $data);
-        // else
-            return $this->render('select', $data);
-    }
-
-    private function _getTableColumns($tableSchema)
-    {
-        $schema = Yii::$app->db->schema->getTableSchema($tableSchema);
-
-        return array_keys($schema->columns);
+        return $this->render('select', $data);
     }
 
     public function actionCreate()
@@ -146,35 +139,162 @@ class DbTableController extends DbObjectController
 
     public function actionStructure()
     {
-
-    }
-
-    public function actionNewItem()
-    {
+        // sidebar
         $modelClass = $this->formModelClass(); 
         $this->formModel = new $modelClass;
+        // tableDef
+        $schemaName = Yii::$app->request->get('SCHEMA_NAME');
+        $tableName = Yii::$app->request->get('TABLE_NAME');
+        $baseTable = $schemaName .'.'. $tableName;
+        $tableSchema = Yii::$app->db->schema->getTableSchema($baseTable);
+
+        $columns = ['COLUMN_NAME', 'COLUMN_TYPE', 'COLUMN_COMMENT']; // 'IS_NULLABLE',
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => (new Query)->from('information_schema.COLUMNS')
+                                ->select($columns)
+                                ->where([
+                                    'TABLE_SCHEMA' => $schemaName,
+                                    'TABLE_NAME' => $tableName,
+                                ])
+                                ->all(),
+            'sort' => [
+                'attributes' => $columns,
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('structure', [
+            'dataProvider' => $dataProvider,
+            'columns' => $columns,
+        ]);
+    }
+
+    public function actionNewEntry()
+    {
+        // sidebar
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+        // tableDef
+        if (Yii::$app->request->isGet) {
+            $tableSchema = Yii::$app->request->get('SCHEMA_NAME');
+            $tableName = Yii::$app->request->get('TABLE_NAME');
+        }
+        if (Yii::$app->request->isPost) {
+            $tableSchema = Yii::$app->request->post('SCHEMA_NAME');
+            $tableName = Yii::$app->request->post('TABLE_NAME');
+        }
+        $baseTable = $tableSchema .'.'. $tableName;
+        $tableDef = Yii::$app->db->schema->getTableSchema($baseTable);
 
         $model = new TableRecord();
-        $tableSchema = Yii::$app->request->get('SCHEMA_NAME');
-        $tableName = Yii::$app->request->get('TABLE_NAME');
-        $baseTable = $tableSchema .'.'. $tableName;
-        $table = Yii::$app->db->schema->getTableSchema($baseTable);
-        $model->schemaName = $table->schemaName;
-        $model->name = $table->name;
-        $model->fullName = $table->fullName;
-        $model->primaryKey = $table->primaryKey;
-        $model->columns = $table->columns;
-        $model->foreignKeys = $table->foreignKeys;
+        if (Yii::$app->request->isGet) {
+            $columnNames = ArrayHelper::getColumn($tableDef->columns, 'name');
+            $model->defineAttributes($columnNames);
+            return $this->render('data/new_entry', [
+                'model' => $model,
+                'tableDef' => $tableDef,
+            ]);
+        }
 
-        return $this->render('new_item', [
-            'model' => $model,
+        if (Yii::$app->request->isPost) {
+            $rowData = Yii::$app->request->post($model->formName());
+            Yii::$app->db
+                ->createCommand()
+                ->insert($baseTable, $rowData)
+                ->execute();
+        }
+        return $this->redirect(['select',
+            'SCHEMA_NAME' => $tableSchema,
+            'TABLE_NAME' => $tableName
+        ]);
+    }
+
+    public function actionEdit()
+    {
+        // sidebar
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+        // tableDef
+        if (Yii::$app->request->isGet) {
+            $tableSchema = Yii::$app->request->get('SCHEMA_NAME');
+            $tableName = Yii::$app->request->get('TABLE_NAME');
+            $tableId = Yii::$app->request->get('TABLE_ID');
+        }
+        if (Yii::$app->request->isPost) {
+            $tableSchema = Yii::$app->request->post('SCHEMA_NAME');
+            $tableName = Yii::$app->request->post('TABLE_NAME');
+            $tableId = Yii::$app->request->post('TABLE_ID');
+        }
+        $baseTable = $tableSchema .'.'. $tableName;
+        $tableDef = Yii::$app->db->schema->getTableSchema($baseTable);
+        // model
+        $model = new TableRecord();
+        if (Yii::$app->request->isGet) {
+            $columnNames = ArrayHelper::getColumn($tableDef->columns, 'name');
+            $rowData = (new Query)
+                    ->from($baseTable)
+                    ->select($columnNames)
+                    ->where([$tableDef->primaryKey[0] => $tableId])
+                    ->one();
+            $model->defineAttributes($columnNames);
+            $model->setValuesByAttribute($rowData);
+
+            return $this->render('data/edit', [
+                'model' => $model,
+                'tableDef' => $tableDef,
+            ]);
+        }
+
+        if (Yii::$app->request->isPost) {
+            $rowData = Yii::$app->request->post($model->formName());
+            Yii::$app->db
+                ->createCommand()
+                ->upsert($baseTable, $rowData)
+                ->execute();
+        }
+        return $this->redirect(['select',
+            'SCHEMA_NAME' => $tableSchema,
+            'TABLE_NAME' => $tableName
         ]);
     }
 
     // ViewInterface
+    public function mapActionToViewType()
+    {
+        switch ($this->action->id)
+        {
+            case 'new-entry':
+            case 'edit':
+                return Type_View::Form;
+            default: // index or other
+                return $this->defaultActionViewType();
+        }
+    }
+
     public function mainAction(): array
     {
         return [
+            'new-entry' => [
+                'route' => 'new-entry',
+                'label' => 'Save',
+                'options' => [
+                    'data' => [
+                        'method' => 'post'
+                    ]
+                ]
+            ],
+            'edit' => [
+                'route' => 'edit',
+                'label' => 'Save',
+                'options' => [
+                    'data' => [
+                        'method' => 'post'
+                    ]
+                ]
+            ],
             'index' => [
                 'route' => 'db/alter',
                 'label' => 'Alter database',
@@ -196,7 +316,7 @@ class DbTableController extends DbObjectController
             'select' => [
                 'select',
                 'show_structure',
-                'new_item',
+                'new_entry',
             ]
         ];
     }
