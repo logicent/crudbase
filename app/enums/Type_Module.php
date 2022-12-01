@@ -6,7 +6,7 @@ namespace crudle\app\enums;
 class Type_Module
 {
     const Main      = 'main';
-    const Admin     = 'db_admin';
+    const Admin     = 'admin';
 
     public static function enums()
     {

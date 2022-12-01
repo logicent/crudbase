@@ -2,10 +2,8 @@
 
 namespace crudle\app\main\controllers;
 
-use crudle\app\admin\models\auth\LoginForm;
 use crudle\app\main\controllers\base\BaseViewController;
 use crudle\app\main\enums\Type_View;
-use Yii;
 
 class HomeController extends BaseViewController
 {

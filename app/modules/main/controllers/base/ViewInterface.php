@@ -2,8 +2,6 @@
 
 namespace crudle\app\main\controllers\base;
 
-use crudle\app\main\enums\Type_View;
-
 interface ViewInterface
 {
     public function viewName(): string;

@@ -45,9 +45,6 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
             return false; // do not run the action
         }
 
-        // if (!parent::beforeAction($action)) {
-        //     return false; // do not run the action
-        // }
         // add db component to the app instance
         Yii::$app->set('db', Yii::$app->session->get('dbConfig'));
 
@@ -60,12 +57,6 @@ abstract class BaseViewController extends BaseController implements LayoutInterf
     //     // your custom code here
     //     // Yii::$app->response->statusCode = 204;
     //     return $result;
-    // }
-
-    // public function actions()
-    // {
-    //     return ArrayHelper::merge(parent::actions(), [
-    //     ]);
     // }
 
     // LayoutInterface

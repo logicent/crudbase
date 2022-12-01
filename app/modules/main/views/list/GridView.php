@@ -10,7 +10,7 @@ $emptyText = "No {$this->context->viewName()} found.";
 $controllerId = $this->context->id;
 $newBtnLabel = Yii::t('app', 'New') . '&nbsp;' . Inflector::titleize($controllerId);
 $newBtnUrl = Url::to(['create']);
-$showListCaptions = $searchModel->getLayoutSettings('showHelpInfo');
+// $showListCaptions = $searchModel->getLayoutSettings('showHelpInfo');
 ?>
 
 <div class="<?= $controllerId ?>-index">

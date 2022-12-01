@@ -293,6 +293,9 @@ class DbController extends DbObjectController
 
     public function actionSchema()
     {
+        $modelClass = $this->formModelClass(); 
+        $this->formModel = new $modelClass;
+
         return $this->render('db_schema');
     }
 

@@ -6,13 +6,13 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'DbMatrix-cli',
+    'id' => 'Crudbase-cli',
     'runtimePath' => '@storage/runtime',
     'vendorPath' => '@crudle/vendor',
     'basePath' => dirname( __DIR__ ),
     'bootstrap' => ['log'],
     'timeZone' => 'Africa/Nairobi',
-    'controllerNamespace' => 'crudle\app\setup\commands',
+    'controllerNamespace' => 'crudle\app\admin\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',

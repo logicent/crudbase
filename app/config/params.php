@@ -13,7 +13,7 @@ return [
 
     'appVersion' => '1.0.0-alpha',
     'mobileAppVersion' => 'N/A',
-    'appDeveloper' => '@code_maze',
+    'appDeveloper' => '@mwaigichuhi',
 
     'helpUrl' => 'https://github.com/logicent/crudbase/wiki',
 

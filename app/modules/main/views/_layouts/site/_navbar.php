@@ -19,17 +19,14 @@ use yii\helpers\Html;
                 </div>
             </div>
             <div class="right menu">
-                <?php if (isset(Yii::$app->user) && !Yii::$app->user->isGuest) : ?>
-                    <div class="ui dropdown item">
-                        &ensp;<?= Yii::$app->user->identity->username ?><i class="dropdown icon"></i>
-                        <div class="menu">
-                            <?= Html::a(Yii::t('app', 'Log out'), ['logout'], [
-                                    'class' => 'item',
-                                    'data' => ['method' => 'post']
-                                ]) ?>
-                        </div>
+                <div class="ui dropdown item">
+                    <div class="menu">
+                        <?= Html::a(Yii::t('app', 'Log out'), ['logout'], [
+                                'class' => 'item',
+                                'data' => ['method' => 'post']
+                            ]) ?>
                     </div>
-                <?php endif ?>
+                </div>
             </div>
         </div>
     </div>

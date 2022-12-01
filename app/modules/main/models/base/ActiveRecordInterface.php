@@ -17,7 +17,7 @@ interface ActiveRecordInterface
     // count links > 0
     public function hasLinks();
     // supported permissions for model
-    // public static function permissions();
+    public static function permissions();
     // supported auth rules for model
     public static function authRules();
     // default audit table columns list

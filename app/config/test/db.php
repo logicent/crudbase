@@ -2,6 +2,6 @@
 
 $db = require __DIR__ . '/../db.php';
 // test database! Important not to run tests on production or development databases
-$db['dsn'] = 'mysql:host=localhost;dbname=db_matrix_tests_db';
+$db['dsn'] = 'mysql:host=localhost;dbname=crudbase_tests_db';
 
 return $db;

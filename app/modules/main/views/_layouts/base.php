@@ -37,6 +37,7 @@ $this->beginPage() ?>
         echo $this->render($navbarView);
         // render navbar loaded above
         echo $this->blocks[$controller->pageNavbar()];
+        // load view header if used
         if ($controller->showViewHeader()) :
             echo $this->render('@appMain/views/_layouts/_nav/_view_header');
         endif ?>

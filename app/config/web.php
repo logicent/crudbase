@@ -9,7 +9,7 @@ $routes = require __DIR__ . '/web/routes.php';
 $modules = require __DIR__ . '/modules.php';
 
 $config = [
-    'id' => 'DbMatrix-web',
+    'id' => 'crudbase-web',
     'name' => App::env('CRUDLE_APP_NAME'),
     'runtimePath' => '@storage/runtime',
     'vendorPath' => '@crudle/vendor',
@@ -59,8 +59,6 @@ $config = [
                 ],
             ],
         ],
-        // 'db' => $db,
-        // 'db' => ['class' => 'yii\db\Connection', 'dsn' => 'mysql:host=localhost;dbname='],
         'urlManager' => [
             'enablePrettyUrl' => true,
             // 'enableStrictParsing' => true,

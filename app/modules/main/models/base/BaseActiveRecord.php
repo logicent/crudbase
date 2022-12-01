@@ -2,22 +2,26 @@
 
 namespace crudle\app\main\models\base;
 
+use crudle\app\helpers\App;
+use crudle\app\main\enums\Type_Comment;
 use crudle\app\main\enums\Type_Link;
 use crudle\app\main\enums\Type_Mixed_Value;
 use crudle\app\main\enums\Type_Model_Id;
 use crudle\app\main\enums\Type_Relation;
 use crudle\app\main\enums\Type_View;
+use crudle\app\main\models\auth\Person;
+use crudle\app\setup\enums\Permission_Group;
 use crudle\app\setup\enums\Type_Permission;
 use crudle\app\main\models\LayoutSettingsForm;
 use crudle\app\main\models\ListViewSettingsForm;
 use crudle\app\main\models\Setup;
-// use crudle\app\setup\models\ListViewSettingsForm;
-// use crudle\app\setup\models\Setup;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Inflector;
+use yii\helpers\Json;
+use yii\helpers\StringHelper;
 
 /**
  * This is the base model class for all other ActiveRecord models.
@@ -28,15 +32,20 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
 
     public $isCopyRecord = false;
     public $copyModel; // use to load source model
+    public $copyDetailModels = [];  // use to load source detail models
+    public $commentsCount;
+    public $notifyEmail;
+    public $uploadForm, $fileAttribute = null;
     public $listSettings;
     public $settings = null;
+    public $detailValuesChanged;
     private $_changedValues;
 
     public function init()
     {
         parent::init();
         $this->listSettings = new ListViewSettingsForm();
-        // $this->listSettings->listIdAttribute = 'id';
+        $this->listSettings->listIdAttribute = 'id';
     }
 
     public static function dbTableSchema()
@@ -125,6 +134,7 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
         $filterAttributes = [
             'id',
             'status',
+            'comments',
             'created_at',
             'created_by',
             'updated_at',
@@ -146,6 +156,19 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
         // compare old and new attribute values
         foreach ($this->oldAttributes as $name => $oldValue) {
             $newValue = $this->$name;
+            if ($name == 'comments') // skip for now until json format support is done
+            {
+                $newValue = Json::encode($newValue);
+                if ($newValue == $oldValue)
+                    continue;
+                if (empty($oldValue))
+                    $oldValue = '<blank>'; // or _
+                if (empty($newValue))
+                    $newValue = '<blank>'; // or _
+                $this->_changedValues .= $this->getAttributeLabel($name) . ' from <b>' . $oldValue . '</b> to <b>' . $newValue . '</b>, ';
+                $countChangedValues += 1;
+                continue;
+            }
             if (is_object($newValue)) // avoid updated_at is yii\db\Expression object
                 continue;
             if (in_array($name, $this::mixedValueFields()))
@@ -196,11 +219,18 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
         }
     }
 
+    public function getStatusAttribute()
+    {
+        if (is_array($this->enums()['status']))
+            return $this->enums()['status']['attribute'];
+        // else
+        return 'status';
+    }
+
     public function getLayoutSettings($attribute)
     {
-        return null;
-        // $settings = Setup::getSettings( LayoutSettingsForm::class );
-        // return $settings->$attribute;
+        $settings = Setup::getSettings( LayoutSettingsForm::class );
+        return $settings->$attribute;
     }
 
     public function beforeSave($insert)
@@ -211,6 +241,13 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
         // if (! $this->isNewRecord )
         //     if (! $this->valuesChanged()) // !! run as validation check instead
         //         return false;
+
+        // comments is ALWAYS empty in model create operation
+        if (empty($this->comments))
+            $this->comments = null;
+        else
+            $this->comments = Json::encode($this->comments);
+
         return true;
     }
 
@@ -261,21 +298,21 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
         return count(self::relations()) > 0;
     }
 
-    public function links($type, $includeEmpty = false)
+    public function links($type = Type_Link::Model, $includeEmpty = false)
     {
         $relations = [];
         foreach ($this::relations() as $relationId => $relationDetail) {
             if (!is_array($relationDetail))
                 continue;
-            // if ($relationDetail['type'] == Type_Relation::ParentModel ||
-            //     $relationDetail['type'] == Type_Relation::InlineModel)
-            //     continue;
+            if ($relationDetail['type'] == Type_Relation::ParentModel ||
+                $relationDetail['type'] == Type_Relation::InlineModel)
+                continue;
 
             switch ($type) {
-                // case Type_Link::Query:
-                //     $link = 'get' . Inflector::camelize($relationId);
-                //     $models = $this->$link();
-                //     break;
+                case Type_Link::Query:
+                    $link = 'get' . Inflector::camelize($relationId);
+                    $models = $this->$link();
+                    break;
                 default: // Type_Link::Model:
                     $link = $relationId;
                     $models = $this->$link;
@@ -304,6 +341,11 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
         return $this->linksCount() > 0;
     }
 
+    public static function permissions()
+    {
+        return Type_Permission::enums();
+    }
+
     public static function authRules()
     {
     }
@@ -323,6 +365,7 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
     public static function mixedValueFields()
     {
         return [
+            'comments',
         ];
     }
 
@@ -334,18 +377,18 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
                 $query->andWhere([$filterAttribute => $this->{$filterAttribute}]);
 
         switch ($this::autoSuggestIdType()) {
-            // case Type_Model_Id::UniqueIncrementedCount:
-            //     $count = $query->count();
-            //     return $count += 1;
+            case Type_Model_Id::UniqueIncrementedCount:
+                $count = $query->count();
+                return $count += 1;
 
-            // case Type_Model_Id::UniqueIncrementedValue:
-            //     // TODO: sorting does not work since column data type is varchar
-            //     $model = $query->orderBy($this->autoSuggestAttribute() . ' DESC')->one();
-            //     return $model->{$this->autoSuggestAttribute()} + 1;
+            case Type_Model_Id::UniqueIncrementedValue:
+                // TODO: sorting does not work since column data type is varchar
+                $model = $query->orderBy($this->autoSuggestAttribute() . ' DESC')->one();
+                return $model->{$this->autoSuggestAttribute()} + 1;
 
-            // case Type_Model_Id::GeneratedUuid:
-            //     $uuid = \thamtech\uuid\helpers\UuidHelper::uuid();
-            //     return $uuid;
+            case Type_Model_Id::GeneratedUuid:
+                $uuid = \thamtech\uuid\helpers\UuidHelper::uuid();
+                return $uuid;
 
             default:
                 return null; // ?
@@ -359,7 +402,7 @@ abstract class BaseActiveRecord extends ActiveRecord implements ActiveRecordInte
 
     public static function autoSuggestIdType()
     {
-        // return Type_Model_Id::UniqueIncrementedCount;
+        return Type_Model_Id::UniqueIncrementedCount;
     }
 
     public static function autoSuggestFilters()
