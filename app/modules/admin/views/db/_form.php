@@ -1,8 +1,6 @@
 <?php
 
 use crudle\app\admin\models\Collation;
-
-$this->title = Yii::t('app', 'Create database');
 ?>
 
 <div class="ui segment">

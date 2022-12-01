@@ -24,7 +24,9 @@ if (isset($controller->mainAction()[$controller->action->id])) :
     $options = ['class' => 'compact small primary ui button'];
     echo Html::a(
         Yii::t('app', $mainAction['label']),
-        [$mainAction['route']],
+        isset($mainAction['hasParams']) && $mainAction['hasParams'] == true ? 
+            array_merge([$mainAction['route']], Yii::$app->request->queryParams) :
+            [$mainAction['route']],
         isset($mainAction['options']) ? array_merge($options, $mainAction['options']) : $options
     );
 endif;

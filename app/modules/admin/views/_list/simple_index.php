@@ -12,11 +12,8 @@ if (file_exists($searchForm)) : ?>
     </div>
 <?php endif;
 
-$checkboxColumn = require Yii::getAlias('@appMain/views/list/_column/checkbox.php');
-
 echo
-    $this->render('GridView', [
+    $this->render('SimpleGridView', [
         'dataProvider'  => $dataProvider, 
-        'checkboxColumn'=> $checkboxColumn,
         'columns'       => $columns,
     ]);

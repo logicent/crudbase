@@ -3,9 +3,11 @@
 namespace crudle\app\admin\controllers;
 
 use crudle\app\admin\controllers\base\DbObjectController;
+use crudle\app\admin\forms\DatabaseForm;
 use crudle\app\admin\forms\PrivilegeForm;
 use crudle\app\admin\models\Database;
 use crudle\app\admin\models\search\DatabaseSearch;
+use crudle\app\main\enums\Type_View;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
@@ -83,6 +85,8 @@ class DbController extends DbObjectController
         $modelClass = $this->formModelClass(); 
         $this->formModel = new $modelClass;
 
+        // $model = new DatabaseForm();
+
         if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
             try {
                 Yii::$app->db->createCommand('CREATE DATABASE ' . $this->formModel->schemaName)->execute();
@@ -104,11 +108,6 @@ class DbController extends DbObjectController
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            // 'sort' => [
-            //     'defaultOrder' => [
-            //         'User' => SORT_ASC
-            //     ]
-            // ]
         ]);
 
         $formModelClass = $this->formModelClass();
@@ -163,11 +162,6 @@ class DbController extends DbObjectController
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            // 'sort' => [
-            //     'defaultOrder' => [
-            //         'User' => SORT_ASC
-            //     ]
-            // ]
         ]);
 
         $formModelClass = $this->formModelClass();
@@ -194,11 +188,9 @@ class DbController extends DbObjectController
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            // 'sort' => [
-            //     'defaultOrder' => [
-            //         'User' => SORT_ASC
-            //     ]
-            // ]
+            'pagination' => [
+                'pageSize' => 0
+            ]
         ]);
 
         $formModelClass = $this->formModelClass();
@@ -225,11 +217,9 @@ class DbController extends DbObjectController
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            // 'sort' => [
-            //     'defaultOrder' => [
-            //         'User' => SORT_ASC
-            //     ]
-            // ]
+            'pagination' => [
+                'pageSize' => 0
+            ]
         ]);
 
         $formModelClass = $this->formModelClass();
@@ -264,27 +254,61 @@ class DbController extends DbObjectController
         $modelClass = $this->formModelClass(); 
         $this->formModel = new $modelClass;
 
-        if ($this->formModel->load(Yii::$app->request->post()) && $this->formModel->validate()) {
+        $model = new DatabaseForm();
+
+        if (Yii::$app->request->isGet)
+        {
+            $schemaName = Yii::$app->request->getQueryParam('SCHEMA_NAME');
+            // $sqlCmd = <<<SQL
+            $sqlCmd = "
+                SELECT SCHEMA_NAME, DEFAULT_COLLATION_NAME FROM SCHEMATA WHERE SCHEMA_NAME = '$schemaName'
+            ";
+            // SQL;
+            $dbSchema = Yii::$app->db->createCommand($sqlCmd)->queryOne();
+            $model->schemaName = $dbSchema['SCHEMA_NAME'];
+            $model->collation = $dbSchema['DEFAULT_COLLATION_NAME'];
+        }
+
+        if (Yii::$app->request->isPost)
+        {
+            $formData = Yii::$app->request->post($model->formName());
+            // To-Do: dynamic validate here
             try {
-                Yii::$app->db->createCommand('ALTER DATABASE ' . $this->formModel->schemaName)->execute();
+                // CREATE..RENAME..DROP
+                $sqlCmd = "ALTER DATABASE '" . $formData['schemaName'] . "'";
+                Yii::$app->db->createCommand($sqlCmd)->execute();
                 return $this->redirect(['index']);
             } catch (\yii\db\Exception $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
+            $model->schemaName = $formData['schemaName'];
+            $model->collation = $formData['collation'];
         }
 
-        return $this->render('alter');
+        return $this->render('alter', ['model' => $model]);
     }
 
     public function actionDrop()
     {}
 
-    public function actionDbSchema()
+    public function actionSchema()
     {
         return $this->render('db_schema');
     }
 
     // ViewInterface
+    public function mapActionToViewType()
+    {
+        switch ($this->action->id)
+        {
+            case 'create':
+            case 'alter':
+                return Type_View::Form;
+            default: // index
+                return $this->defaultActionViewType();
+        }
+    }
+
     public function mainAction(): array
     {
         return [
@@ -301,6 +325,15 @@ class DbController extends DbObjectController
                         'hx-target' => 'body > div.main',
                         'hx-push-url' => 'true',
                         'hx-swap' => 'outerHTML'
+                    ]
+                ]
+            ],
+            'alter' => [
+                'route' => 'alter',
+                'label' => 'Save',
+                'options' => [
+                    'data' => [
+                        'method' => 'post'
                     ]
                 ]
             ],

@@ -1,7 +1,7 @@
 <?php
 
 $context = $this->context;
-$model = $context->model;
+$model = isset($model) ? $model : $context->model;
 ?>
 
 <?= $this->render('/_view/_breadcrumb') ?>

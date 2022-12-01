@@ -20,7 +20,7 @@ DataTable::register($this);
         'dataProvider' => $dataProvider,
         'columns' => ArrayHelper::merge(
             $checkboxColumn,
-            $actionColumn,
+            isset($this->params['actionColumn']) ? $this->params['actionColumn'] : [],
             $columns,
         ) // array merge
     ]);

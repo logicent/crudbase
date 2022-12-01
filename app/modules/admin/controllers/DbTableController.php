@@ -297,6 +297,7 @@ class DbTableController extends DbObjectController
             ],
             'index' => [
                 'route' => 'db/alter',
+                'hasParams' => true,
                 'label' => 'Alter database',
             ],
             'select' => [
@@ -310,12 +311,12 @@ class DbTableController extends DbObjectController
     {
         return [
             'index' => [
-                'database_schema',
+                'db_schema',
                 'privileges',
             ],
             'select' => [
                 'select',
-                'show_structure',
+                'structure',
                 'new_entry',
             ]
         ];
